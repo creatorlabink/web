@@ -61,6 +61,14 @@ export const pdfApi = {
     const response = await api.post(`/pdf/export/${ebookId}`, {}, { responseType: 'blob' });
     return response.data as Blob;
   },
+  preview: (ebookId: string) => api.get(`/pdf/preview/${ebookId}`),
+};
+
+// ─── Payment ──────────────────────────────────────────────────────────────────
+export const paymentApi = {
+  createCheckout: () => api.post('/payment/checkout'),
+  getStatus: () => api.get('/payment/status'),
+  verifySession: (sessionId: string) => api.get(`/payment/verify?session_id=${sessionId}`),
 };
 
 export default api;
