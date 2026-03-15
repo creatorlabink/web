@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, User, MonitorPlay, Sparkles, Plug } from 'lucide-react';
+import { useAuth } from '@/lib/authContext';
+import { isAdminEmail } from '@/lib/adminAccess';
+import { LayoutDashboard, BookOpen, User, MonitorPlay, Sparkles, Plug, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -14,13 +16,18 @@ const navItems = [
   { href: '/dashboard/account', label: 'Account', icon: User },
 ];
 
+const adminNavItem = { href: '/dashboard/admin/emails', label: 'Admin', icon: Shield };
+
 export function MobileNav() {
   const pathname = usePathname();
+  const { user } = useAuth();
+  const isAdmin = isAdminEmail(user?.email);
+  const visibleNavItems = isAdmin ? [...navItems, adminNavItem] : navItems;
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-50 bg-[#0a0a0a] border-t border-white/10 pb-safe">
       <div className="flex items-center justify-around h-16">
-        {navItems.map(({ href, label, icon: Icon }) => {
+        {visibleNavItems.map(({ href, label, icon: Icon }) => {
           const active =
             href === '/dashboard' ? pathname === href : pathname.startsWith(href);
           return (

@@ -121,6 +121,24 @@ export interface CelebioPublishResponse {
   edit_url?: string | null;
 }
 
+export interface AdminEmailTemplate {
+  key: string;
+  name: string;
+  description: string;
+  category: string;
+}
+
+export interface AdminEmailMessage {
+  id: string;
+  direction: 'inbound' | 'outbound' | string;
+  template_key: string;
+  sender_email: string;
+  recipient_email: string;
+  subject: string;
+  status: string;
+  created_at: string;
+}
+
 // Phase 4 placeholder
 export interface AiFormattedEbook {
   title: string;

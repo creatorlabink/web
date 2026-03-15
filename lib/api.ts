@@ -548,4 +548,46 @@ export const integrationsApi = {
   },
 };
 
+// ─── Admin Email System ─────────────────────────────────────────────────────
+export const adminEmailApi = {
+  listTemplates: () => {
+    if (!LOCAL_MODE) return api.get('/admin/email/templates');
+    return localOk({
+      templates: [
+        { key: 'account_verification', name: 'Account Verification', description: 'Verify account', category: 'auth' },
+        { key: 'password_reset', name: 'Password Reset', description: 'Reset password', category: 'auth' },
+        { key: 'ebook_export_ready', name: 'Ebook Export Ready', description: 'Export done', category: 'ebook' },
+      ],
+    });
+  },
+  renderTemplate: (templateKey: string, variables: Record<string, unknown>) => {
+    if (!LOCAL_MODE) return api.post('/admin/email/render', { templateKey, variables });
+    return localOk({
+      templateKey,
+      subject: `Preview: ${templateKey}`,
+      html: `<div style=\"padding:20px;font-family:Arial\"><h2>${templateKey}</h2><pre>${JSON.stringify(variables, null, 2)}</pre></div>`,
+      text: `Preview: ${templateKey}`,
+    });
+  },
+  sendTemplate: (to: string, templateKey: string, variables: Record<string, unknown>) => {
+    if (!LOCAL_MODE) return api.post('/admin/email/send-template', { to, templateKey, variables });
+    return localOk({ success: true, id: 'local-template-email' });
+  },
+  sendCustom: (to: string, subject: string, html: string, text?: string) => {
+    if (!LOCAL_MODE) return api.post('/admin/email/send-custom', { to, subject, html, text });
+    return localOk({ success: true, id: 'local-custom-email' });
+  },
+  listMessages: (direction?: 'inbound' | 'outbound', limit = 50) => {
+    if (!LOCAL_MODE) {
+      return api.get('/admin/email/messages', {
+        params: {
+          direction,
+          limit,
+        },
+      });
+    }
+    return localOk({ messages: [] });
+  },
+};
+
 export default api;
