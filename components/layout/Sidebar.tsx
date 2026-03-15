@@ -5,35 +5,44 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
 import { cn } from '@/lib/utils';
 import {
+  Crown,
   LayoutDashboard,
   BookOpen,
   User,
   LogOut,
   BookMarked,
+  MonitorPlay,
+  Sparkles,
+  Plug,
 } from 'lucide-react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/dashboard/ebooks', label: 'My Ebooks', icon: BookOpen },
+  { href: '/dashboard/teleprompter', label: 'Teleprompter', icon: MonitorPlay },
+  { href: '/dashboard/unveil', label: 'Unveil', icon: Sparkles },
+  { href: '/dashboard/apps', label: 'Connected Apps', icon: Plug },
   { href: '/dashboard/account', label: 'Account', icon: User },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const isLifetime = user?.plan === 'lifetime';
 
   return (
-    <aside className="w-64 shrink-0 h-screen sticky top-0 flex flex-col bg-white border-r border-gray-100">
+    <aside className="w-72 shrink-0 h-screen sticky top-0 flex flex-col bg-[#0a0a0a] border-r border-white/10">
       {/* Logo */}
-      <div className="px-6 py-5 border-b border-gray-100">
-        <Link href="/" className="flex items-center gap-2 text-indigo-600 font-bold text-lg">
-          <BookMarked className="w-5 h-5" />
-          CreatorLab.ink
+      <div className="px-6 py-5 border-b border-white/10">
+        <Link href="/" className="flex items-center gap-2 text-white font-extrabold text-lg tracking-tight">
+          <BookMarked className="w-5 h-5 text-indigo-400" />
+          Creatorlab
         </Link>
+        <p className="text-xs text-gray-500 mt-2">Creator publishing workspace</p>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active =
             href === '/dashboard' ? pathname === href : pathname.startsWith(href);
@@ -44,8 +53,8 @@ export function Sidebar() {
               className={cn(
                 'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
                 active
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/30'
+                  : 'text-gray-400 hover:bg-white/5 hover:text-white'
               )}
             >
               <Icon className="w-4.5 h-4.5 shrink-0" />
@@ -56,18 +65,31 @@ export function Sidebar() {
       </nav>
 
       {/* User + logout */}
-      <div className="px-4 py-4 border-t border-gray-100 space-y-3">
+      <div className="px-4 py-4 border-t border-white/10 space-y-3">
+        <div className="px-3">
+          <span
+            className={cn(
+              'inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full border',
+              isLifetime
+                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+            )}
+          >
+            <Crown className="w-3 h-3" />
+            {isLifetime ? 'Lifetime plan' : 'Free plan'}
+          </span>
+        </div>
         {user && (
           <div className="px-3">
-            <p className="text-xs font-semibold text-gray-900 truncate">
+            <p className="text-xs font-semibold text-white truncate">
               {user.name || user.email}
             </p>
-            <p className="text-xs text-gray-400 truncate">{user.email}</p>
+            <p className="text-xs text-gray-500 truncate">{user.email}</p>
           </div>
         )}
         <button
           onClick={logout}
-          className="flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+          className="flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-sm text-gray-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
         >
           <LogOut className="w-4 h-4" />
           Sign out

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Lock, Zap, CheckCircle, Loader2 } from 'lucide-react';
+import { X, Lock, Zap, CheckCircle, Loader2, Sparkles, Shield, Crown } from 'lucide-react';
 import { paymentApi } from '@/lib/api';
 import { cn } from '@/lib/utils';
 
@@ -10,11 +10,11 @@ interface PaymentModalProps {
 }
 
 const PERKS = [
-  'Unlimited PDF exports – forever',
-  'All current & future templates',
-  'AI-assisted formatting (Phase 4)',
-  'Priority support',
-  'One-time payment – no subscription',
+  { icon: Sparkles, text: 'Unlimited PDF exports for every ebook' },
+  { icon: Crown, text: 'All templates: Minimal, Business, Workbook' },
+  { icon: Zap, text: 'AI-assisted formatting workflow included' },
+  { icon: Shield, text: 'Future premium updates included' },
+  { icon: CheckCircle, text: 'One-time payment, no recurring subscription' },
 ];
 
 export function PaymentModal({ onClose }: PaymentModalProps) {
@@ -42,79 +42,105 @@ export function PaymentModal({ onClose }: PaymentModalProps) {
   return (
     // Backdrop
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header gradient */}
-        <div className="bg-gradient-to-br from-indigo-600 to-indigo-800 px-6 pt-6 pb-8 text-white text-center">
-          <button
-            onClick={onClose}
-            className="absolute top-3 right-3 p-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/20 transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/20 mb-4">
-            <Lock className="w-7 h-7 text-white" />
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-[#12121a] to-[#0a0a0f] shadow-2xl shadow-black/50">
+        {/* Decorative gradient orbs */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-violet-500/20 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl" />
+        
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-xl text-gray-500 hover:text-white bg-white/5 hover:bg-white/10 border border-transparent hover:border-white/10 transition-all z-10"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Header */}
+        <div className="relative px-8 pt-8 pb-6 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 mb-4 shadow-lg shadow-violet-500/30">
+            <Crown className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-xl font-bold mb-1">Unlock PDF Export</h2>
-          <p className="text-sm text-indigo-200">
-            Get lifetime access for a one-time payment
+          <h2 className="text-2xl font-bold text-white mb-2">Unlock Lifetime Access</h2>
+          <p className="text-sm text-gray-400">
+            Publish faster with premium export and AI formatting tools
           </p>
         </div>
 
-        {/* Pricing callout */}
-        <div className="mx-6 -mt-4 bg-white rounded-xl border-2 border-indigo-600 p-4 shadow-md text-center">
-          <div className="flex items-end justify-center gap-1 mb-0.5">
-            <span className="text-4xl font-extrabold text-gray-900">$11.97</span>
-            <span className="text-base text-gray-500 mb-1.5">one-time</span>
+        {/* Pricing card */}
+        <div className="relative mx-6 rounded-2xl bg-gradient-to-br from-violet-600/20 to-indigo-600/20 border border-violet-500/30 p-5 shadow-inner">
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-200 bg-gradient-to-r from-amber-600 to-orange-500 px-4 py-1.5 rounded-full shadow-lg">
+              <Zap className="w-3.5 h-3.5" />
+              Early Adopter Price – Limited Time
+            </span>
           </div>
-          <p className="text-xs text-gray-500 line-through mb-1">$257.65/year after launch</p>
-          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">
-            <Zap className="w-3 h-3" /> Early Adopter Price – Limited Time
-          </span>
+          
+          <div className="flex items-end justify-center gap-2 mt-3 mb-2">
+            <span className="text-5xl font-extrabold text-white">$11.97</span>
+            <span className="text-base text-gray-400 mb-2">one-time</span>
+          </div>
+          <p className="text-center text-sm text-gray-500">
+            <span className="line-through">$257.65/year</span>
+            <span className="ml-2 text-emerald-400 font-semibold">Save 95%</span>
+          </p>
         </div>
 
         {/* Perks */}
-        <ul className="px-6 pt-4 pb-2 space-y-2">
-          {PERKS.map((perk) => (
-            <li key={perk} className="flex items-start gap-2 text-sm text-gray-700">
-              <CheckCircle className="w-4 h-4 text-indigo-500 flex-shrink-0 mt-0.5" />
-              {perk}
-            </li>
-          ))}
+        <ul className="px-6 pt-6 pb-4 space-y-3">
+          {PERKS.map((perk) => {
+            const Icon = perk.icon;
+            return (
+              <li key={perk.text} className="flex items-center gap-3 text-sm text-gray-300">
+                <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <Icon className="w-4 h-4 text-violet-400" />
+                </div>
+                {perk.text}
+              </li>
+            );
+          })}
         </ul>
 
         {/* Error */}
         {error && (
-          <p className="mx-6 text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>
+          <div className="mx-6 p-3 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-2">
+            <X className="w-4 h-4 text-red-400 flex-shrink-0" />
+            <p className="text-sm text-red-300">{error}</p>
+          </div>
         )}
 
         {/* CTA */}
-        <div className="px-6 pb-6 pt-3">
+        <div className="px-6 pb-8 pt-4">
           <button
             onClick={handleCheckout}
             disabled={loading}
             className={cn(
-              'w-full flex items-center justify-center gap-2 rounded-xl py-3.5 text-white font-bold text-sm transition-all',
+              'w-full flex items-center justify-center gap-2.5 rounded-xl py-4 text-sm font-bold transition-all duration-300',
               loading
-                ? 'bg-indigo-400 cursor-not-allowed'
-                : 'bg-indigo-600 hover:bg-indigo-700 shadow-md active:scale-95'
+                ? 'bg-violet-500/30 text-violet-300 cursor-not-allowed border border-violet-500/20'
+                : 'bg-gradient-to-r from-violet-500 to-indigo-500 text-white hover:from-violet-400 hover:to-indigo-400 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98]'
             )}
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" /> Redirecting to checkout…
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Redirecting to checkout…
               </>
             ) : (
               <>
-                <Lock className="w-4 h-4" /> Get Lifetime Access – $11.97
+                <Lock className="w-4 h-4" />
+                Secure My Lifetime Access – $11.97
               </>
             )}
           </button>
-          <p className="text-center text-xs text-gray-400 mt-2">
-            Secure payment via Stripe. 30-day refund guarantee.
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <Shield className="w-4 h-4 text-gray-600" />
+            <p className="text-xs text-gray-500">
+              Secure payment via Stripe • 30-day money-back guarantee
+            </p>
+          </div>
         </div>
       </div>
     </div>

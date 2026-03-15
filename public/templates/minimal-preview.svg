@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" fill="none">
+  <!-- Background -->
+  <rect width="400" height="520" fill="#ffffff"/>
+  
+  <!-- Top accent bar -->
+  <rect width="400" height="8" fill="#0D1B2A"/>
+  
+  <!-- Gold decorative line -->
+  <rect x="150" y="120" width="100" height="3" fill="#F5A623"/>
+  
+  <!-- Title area -->
+  <text x="200" y="160" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="bold" fill="#0D1B2A">EBOOK TITLE</text>
+  <text x="200" y="185" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#6B7280">Your Subtitle Here</text>
+  
+  <!-- Divider -->
+  <rect x="160" y="200" width="80" height="2" fill="#F5A623"/>
+  
+  <!-- Chapter preview box -->
+  <rect x="30" y="240" width="340" height="50" rx="4" fill="#0D1B2A"/>
+  <rect x="30" y="286" width="340" height="4" fill="#F5A623"/>
+  <text x="50" y="255" font-family="Helvetica, Arial, sans-serif" font-size="9" font-weight="bold" fill="#F5A623">CHAPTER 1</text>
+  <text x="50" y="275" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">Getting Started</text>
+  
+  <!-- Body text lines -->
+  <rect x="30" y="310" width="340" height="8" rx="2" fill="#E5E7EB"/>
+  <rect x="30" y="325" width="300" height="8" rx="2" fill="#E5E7EB"/>
+  <rect x="30" y="340" width="320" height="8" rx="2" fill="#E5E7EB"/>
+  
+  <!-- Quote box -->
+  <rect x="30" y="365" width="340" height="45" rx="4" fill="#FDF6E3"/>
+  <rect x="30" y="365" width="4" height="45" fill="#F5A623"/>
+  <text x="45" y="390" font-family="Helvetica, Arial, sans-serif" font-size="10" font-style="italic" fill="#374151">"This is a pull quote example..."</text>
+  
+  <!-- Bullet list with teal bg -->
+  <rect x="30" y="425" width="340" height="60" rx="4" fill="#E6F7F5"/>
+  <rect x="30" y="425" width="4" height="60" fill="#1DB8A6"/>
+  <circle cx="52" cy="445" r="4" fill="#1DB8A6"/>
+  <rect x="65" y="441" width="200" height="8" rx="2" fill="#9CA3AF"/>
+  <circle cx="52" cy="465" r="4" fill="#1DB8A6"/>
+  <rect x="65" y="461" width="180" height="8" rx="2" fill="#9CA3AF"/>
+  
+  <!-- Bottom accent bar -->
+  <rect y="512" width="400" height="8" fill="#0D1B2A"/>
+  
+  <!-- Creatorlab branding -->
+  <text x="200" y="505" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#9CA3AF">Created with Creatorlab</text>
+</svg>

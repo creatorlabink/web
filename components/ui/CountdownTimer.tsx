@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { useCountdown } from '@/lib/useCountdown';
 
 interface CountdownTimerProps {
@@ -12,7 +13,53 @@ function pad(n: number) {
 }
 
 export function CountdownTimer({ variant = 'hero' }: CountdownTimerProps) {
+  const [mounted, setMounted] = useState(false);
   const { days, hours, minutes, seconds, expired } = useCountdown();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Render placeholder during SSR to avoid hydration mismatch
+  if (!mounted) {
+    if (variant === 'banner') {
+      return <span className="font-semibold tabular-nums">--d --h --m --s</span>;
+    }
+    if (variant === 'mini') {
+      return (
+        <div className="flex items-center gap-1 tabular-nums text-sm font-semibold">
+          <span className="bg-indigo-600 text-white rounded px-1.5 py-0.5">--</span>
+          <span className="text-gray-400">:</span>
+          <span className="bg-indigo-600 text-white rounded px-1.5 py-0.5">--</span>
+          <span className="text-gray-400">:</span>
+          <span className="bg-indigo-600 text-white rounded px-1.5 py-0.5">--</span>
+          <span className="text-gray-400">:</span>
+          <span className="bg-indigo-600 text-white rounded px-1.5 py-0.5">--</span>
+        </div>
+      );
+    }
+    // hero placeholder
+    const placeholders = ['Days', 'Hours', 'Minutes', 'Seconds'];
+    return (
+      <div className="flex items-center gap-3 justify-center">
+        {placeholders.map((label, i) => (
+          <div key={label} className="flex items-center gap-3">
+            <div className="flex flex-col items-center">
+              <div className="bg-gray-900 text-white text-3xl font-extrabold tabular-nums w-16 h-16 flex items-center justify-center rounded-xl shadow-md">
+                --
+              </div>
+              <span className="text-xs text-gray-500 mt-1 uppercase tracking-widest">
+                {label}
+              </span>
+            </div>
+            {i < placeholders.length - 1 && (
+              <span className="text-2xl font-bold text-gray-400 mb-5">:</span>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   if (expired) {
     return (

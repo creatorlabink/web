@@ -22,10 +22,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
         <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-600" />
-          <p className="text-sm text-gray-400">Loading your workspace…</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500" />
+          <p className="text-sm text-gray-500">Loading your workspace…</p>
         </div>
       </div>
     );
@@ -34,7 +34,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   if (!user) return null;
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-50">
+    <div className="flex h-screen overflow-hidden bg-[#0f0f0f]">
       {/* Desktop sidebar */}
       <div className="hidden md:flex">
         <Sidebar />

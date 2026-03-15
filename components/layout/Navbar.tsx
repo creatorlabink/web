@@ -4,12 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
 import { Button } from '@/components/ui/Button';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Flame } from 'lucide-react';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
+import { useOfferState } from '@/lib/offer';
 
 export function Navbar() {
   const { user, logout, loading } = useAuth();
   const pathname = usePathname();
+  const { earlyOfferActive } = useOfferState();
 
   // Dashboard uses its own sidebar nav — hide the top Navbar there
   if (pathname.startsWith('/dashboard')) return null;
@@ -19,12 +21,20 @@ export function Navbar() {
       {/* ─── Top announcement strip (only for non-authed users) ─────────── */}
       {!loading && !user && (
         <div className="bg-indigo-600 text-white text-center text-xs font-medium py-2 px-4">
-          🔥 Early Adopter lifetime access — $11.97 for{' '}
-          <CountdownTimer variant="banner" />{' '}
-          more.{' '}
-          <Link href="/auth/signup" className="underline ml-1 font-bold">
-            Claim now →
-          </Link>
+          {earlyOfferActive ? (
+            <>
+              <Flame className="w-3.5 h-3.5 inline" /> Early Adopter lifetime access — $11.97 for{' '}
+              <CountdownTimer variant="banner" />{' '}
+              more.{' '}
+              <Link href="/auth/signup" className="underline ml-1 font-bold">
+                Claim now →
+              </Link>
+            </>
+          ) : (
+            <>
+              Early adopter offer ended. Annual plan is now active at $257.65/year.
+            </>
+          )}
         </div>
       )}
 
@@ -34,7 +44,7 @@ export function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-indigo-600 font-bold text-xl">
             <BookOpen className="w-6 h-6" />
-            CreatorLab.ink
+            Creatorlab
           </Link>
 
           {/* Nav links */}

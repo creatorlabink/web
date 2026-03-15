@@ -18,65 +18,65 @@ export default function AccountPage() {
       <div className="flex-1 px-6 py-8 space-y-6">
 
         {/* ── Profile ──────────────────────────────────────────────────── */}
-        <Card>
+        <Card className="border-white/10 bg-white/5">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
             Profile
           </h2>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
-                <User className="w-5 h-5 text-indigo-500" />
+              <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0">
+                <User className="w-5 h-5 text-indigo-400" />
               </div>
               <div>
-                <p className="text-xs text-gray-400">Name</p>
-                <p className="text-sm font-semibold text-gray-900">
-                  {user?.name || <span className="text-gray-400 italic">Not set</span>}
+                <p className="text-xs text-gray-500">Name</p>
+                <p className="text-sm font-semibold text-white">
+                  {user?.name || <span className="text-gray-500 italic">Not set</span>}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
-                <Mail className="w-5 h-5 text-indigo-500" />
+              <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center shrink-0">
+                <Mail className="w-5 h-5 text-indigo-400" />
               </div>
               <div>
-                <p className="text-xs text-gray-400">Email</p>
-                <p className="text-sm font-semibold text-gray-900">{user?.email}</p>
+                <p className="text-xs text-gray-500">Email</p>
+                <p className="text-sm font-semibold text-white">{user?.email}</p>
               </div>
             </div>
           </div>
 
           {/* Phase 3: profile edit form */}
-          <p className="text-xs text-gray-400 mt-4">
+          <p className="text-xs text-gray-600 mt-4">
             Profile editing available in Phase 3.
           </p>
         </Card>
 
         {/* ── Plan & Billing ────────────────────────────────────────────── */}
-        <Card>
+        <Card className="border-white/10 bg-white/5">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
             Plan & Billing
           </h2>
 
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-              <CreditCard className="w-5 h-5 text-gray-500" />
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <CreditCard className="w-5 h-5 text-gray-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-400">Current Plan</p>
-              <p className="text-sm font-semibold text-gray-900 capitalize">
+              <p className="text-xs text-gray-500">Current Plan</p>
+              <p className="text-sm font-semibold text-white capitalize">
                 {user?.plan || 'Free'}
               </p>
             </div>
           </div>
 
           {user?.plan !== 'lifetime' ? (
-            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4">
-              <div className="flex items-center gap-2 text-indigo-700 font-semibold text-sm mb-2">
+            <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4">
+              <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm mb-2">
                 <Tag className="w-4 h-4" />
                 Early Adopter Offer — $11.97 Lifetime
               </div>
-              <p className="text-xs text-gray-600 mb-3">
+              <p className="text-xs text-gray-400 mb-3">
                 Upgrade now to lock in lifetime access. Offer expires in:
               </p>
               <CountdownTimer variant="mini" />
@@ -86,7 +86,7 @@ export default function AccountPage() {
               </Button>
             </div>
           ) : (
-            <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium">
+            <div className="flex items-center gap-2 text-emerald-400 text-sm font-medium">
               <ShieldCheck className="w-4 h-4" />
               You have lifetime access. Enjoy all features forever!
             </div>
@@ -94,35 +94,35 @@ export default function AccountPage() {
         </Card>
 
         {/* ── Security ──────────────────────────────────────────────────── */}
-        <Card>
+        <Card className="border-white/10 bg-white/5">
           <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
             Security
           </h2>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5 text-gray-500" />
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <ShieldCheck className="w-5 h-5 text-gray-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-400">Password</p>
-              <p className="text-sm text-gray-500">••••••••</p>
+              <p className="text-xs text-gray-500">Password</p>
+              <p className="text-sm text-gray-400">••••••••</p>
             </div>
           </div>
           {/* Phase 3: change password form */}
-          <p className="text-xs text-gray-400 mt-4">
+          <p className="text-xs text-gray-600 mt-4">
             Password change available in Phase 3.
           </p>
         </Card>
 
         {/* ── Danger zone ───────────────────────────────────────────────── */}
-        <Card className="border-red-100 bg-red-50/30">
-          <h2 className="text-sm font-semibold text-red-500 uppercase tracking-wide mb-3">
+        <Card className="border-red-500/20 bg-red-500/5">
+          <h2 className="text-sm font-semibold text-red-400 uppercase tracking-wide mb-3">
             Danger Zone
           </h2>
-          <p className="text-sm text-gray-500 mb-3">
+          <p className="text-sm text-gray-400 mb-3">
             Permanently delete your account and all ebooks.
           </p>
           {/* Phase 3: account deletion */}
-          <Button variant="ghost" size="sm" className="text-red-500 hover:bg-red-50" disabled>
+          <Button variant="ghost" size="sm" className="text-red-400 hover:bg-red-500/10" disabled>
             Delete Account (Phase 3)
           </Button>
         </Card>

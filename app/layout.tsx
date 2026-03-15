@@ -10,7 +10,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "CreatorLab.ink – Turn Text into Beautiful Ebooks",
+  title: "Creatorlab – Turn Text into Beautiful Ebooks",
   description:
     "Paste your text, choose a template, and export professional ebooks in seconds. AI-assisted formatting for creators.",
 };
