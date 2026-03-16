@@ -128,6 +128,15 @@ export interface AdminEmailTemplate {
   category: string;
 }
 
+export interface AdminUser {
+  id: string;
+  email: string;
+  name?: string | null;
+  plan: 'free' | 'lifetime' | 'annual';
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface AdminEmailMessage {
   id: string;
   direction: 'inbound' | 'outbound' | string;

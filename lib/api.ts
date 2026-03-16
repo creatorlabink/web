@@ -590,4 +590,28 @@ export const adminEmailApi = {
   },
 };
 
+export const adminUsersApi = {
+  listUsers: (search?: string) => {
+    if (!LOCAL_MODE) {
+      const query = search ? `?search=${encodeURIComponent(search)}` : '';
+      return api.get(`/admin/users${query}`);
+    }
+
+    return localOk({
+      users: [
+        {
+          id: 'demo-user',
+          email: 'demo@creatorlab.io',
+          name: 'Creatorlab Demo',
+          plan: 'lifetime',
+        },
+      ],
+    });
+  },
+  updateUserPlan: (userId: string, plan: 'free' | 'lifetime' | 'annual') => {
+    if (!LOCAL_MODE) return api.patch(`/admin/users/${userId}/plan`, { plan });
+    return localOk({ user: { id: userId, plan } });
+  },
+};
+
 export default api;

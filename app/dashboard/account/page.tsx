@@ -1,15 +1,64 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/lib/authContext';
+import { isAdminEmail } from '@/lib/adminAccess';
+import { adminUsersApi } from '@/lib/api';
+import { AdminUser } from '@/types';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
 import { User, Mail, ShieldCheck, CreditCard, Tag } from 'lucide-react';
 
 export default function AccountPage() {
   const { user } = useAuth();
+  const isAdmin = isAdminEmail(user?.email);
+
+  const [search, setSearch] = useState('');
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [savingUserId, setSavingUserId] = useState<string | null>(null);
+  const [adminMessage, setAdminMessage] = useState('');
+  const [adminError, setAdminError] = useState('');
+
+  const loadUsers = async (searchValue?: string) => {
+    setLoadingUsers(true);
+    setAdminError('');
+    try {
+      const res = await adminUsersApi.listUsers(searchValue || undefined);
+      const data = res.data as { users?: AdminUser[] };
+      setUsers(data.users ?? []);
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+      setAdminError(msg || 'Could not load users');
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  const updatePlan = async (targetUser: AdminUser, plan: 'free' | 'lifetime' | 'annual') => {
+    setSavingUserId(targetUser.id);
+    setAdminError('');
+    setAdminMessage('');
+    try {
+      await adminUsersApi.updateUserPlan(targetUser.id, plan);
+      setUsers((prev) => prev.map((item) => (item.id === targetUser.id ? { ...item, plan } : item)));
+      setAdminMessage(`Updated ${targetUser.email} to ${plan}.`);
+    } catch (err: unknown) {
+      const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+      setAdminError(msg || 'Could not update user plan');
+    } finally {
+      setSavingUserId(null);
+    }
+  };
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadUsers();
+    }
+  }, [isAdmin]);
 
   return (
     <DashboardLayout>
@@ -126,6 +175,92 @@ export default function AccountPage() {
             Delete Account (Phase 3)
           </Button>
         </Card>
+
+        {isAdmin && (
+          <Card className="border-white/10 bg-white/5">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
+              Admin · Plan Access
+            </h2>
+
+            <div className="flex flex-col sm:flex-row gap-2 mb-4">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search by email or name"
+                className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500"
+              />
+              <Button
+                size="sm"
+                onClick={() => loadUsers(search.trim())}
+                disabled={loadingUsers}
+                className="sm:w-auto"
+              >
+                {loadingUsers ? 'Loading...' : 'Search'}
+              </Button>
+            </div>
+
+            {adminError && (
+              <div className="mb-3 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+                {adminError}
+              </div>
+            )}
+
+            {adminMessage && (
+              <div className="mb-3 rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-400">
+                {adminMessage}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              {users.map((targetUser) => (
+                <div key={targetUser.id} className="rounded-xl border border-white/10 bg-white/5 p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-white">{targetUser.email}</p>
+                      <p className="text-xs text-gray-400">{targetUser.name || 'No name'} · current plan: {targetUser.plan}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="border border-white/10"
+                        disabled={savingUserId === targetUser.id || targetUser.plan === 'lifetime'}
+                        onClick={() => updatePlan(targetUser, 'lifetime')}
+                      >
+                        Grant Lifetime
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="border border-white/10"
+                        disabled={savingUserId === targetUser.id || targetUser.plan === 'annual'}
+                        onClick={() => updatePlan(targetUser, 'annual')}
+                      >
+                        Set Annual
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="border border-red-500/30 text-red-300 hover:bg-red-500/10"
+                        disabled={savingUserId === targetUser.id || targetUser.plan === 'free'}
+                        onClick={() => updatePlan(targetUser, 'free')}
+                      >
+                        Revoke (Free)
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {!loadingUsers && users.length === 0 && (
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-gray-400">
+                  No users found.
+                </div>
+              )}
+            </div>
+          </Card>
+        )}
       </div>
     </DashboardLayout>
   );
