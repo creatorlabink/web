@@ -41,7 +41,13 @@ export default function LoginPage() {
       login(token, user);
       router.push('/dashboard');
     } catch (err: unknown) {
-      const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
+      const data = (err as { response?: { status?: number; data?: { error?: string; message?: string; checkout_url?: string } } })?.response?.data;
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      if (status === 402 && data?.checkout_url) {
+        window.location.href = data.checkout_url;
+        return;
+      }
+      const msg = data?.message || data?.error;
       setServerError(msg || 'Login failed. Please check your credentials and try again.');
     } finally {
       setLoading(false);

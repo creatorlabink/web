@@ -48,7 +48,13 @@ function CallbackContent() {
         setTimeout(() => {
           router.replace('/dashboard');
         }, 900);
-      } catch {
+      } catch (err: unknown) {
+        const data = (err as { response?: { status?: number; data?: { checkout_url?: string } } })?.response?.data;
+        const statusCode = (err as { response?: { status?: number } })?.response?.status;
+        if (statusCode === 402 && data?.checkout_url) {
+          window.location.href = data.checkout_url;
+          return;
+        }
         if (!active) return;
         setStatus('error');
         setMessage('Social login failed. Please try again.');
