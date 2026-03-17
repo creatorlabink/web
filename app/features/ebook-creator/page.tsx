@@ -81,23 +81,49 @@ export default function EbookCreatorFeaturePage() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-emerald-500/30 bg-[#0D1B2A] p-4 shadow-xl">
-                    <p className="text-[#F5A623] text-xs uppercase tracking-wider mb-3">Designed Ebook (Page 1)</p>
-                    <div className="bg-white rounded-xl p-4 min-h-[240px]">
-                      <h3 className="text-[10px] tracking-wide text-gray-500 uppercase mb-1">CreatorLab Press</h3>
-                      <h4 className="text-lg font-black text-[#0D1B2A] leading-tight mb-2">The Creator Consistency Playbook</h4>
-                      <p className="text-xs font-semibold text-[#1E3A5F] mb-2">Chapter 1 — Why Consistency Matters</p>
-                      <p className="text-[11px] text-gray-700 leading-relaxed mb-3">
-                        Most creators quit before momentum starts. Consistency compounds your results, builds trust, and makes growth predictable.
-                      </p>
-                      <ul className="space-y-1 mb-3">
-                        <li className="text-[11px] text-gray-700">• Show up daily</li>
-                        <li className="text-[11px] text-gray-700">• Measure one metric</li>
-                        <li className="text-[11px] text-gray-700">• Improve one thing each week</li>
-                      </ul>
-                      <div className="rounded-lg bg-amber-50 border border-amber-200 p-2">
-                        <p className="text-[10px] text-amber-700 font-semibold">Key Takeaway</p>
-                        <p className="text-[11px] text-amber-900">Consistency beats intensity over time.</p>
+                  <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-[#0D1B2A] to-[#132a43] p-4 shadow-2xl shadow-emerald-900/30">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-[#F5A623] text-xs uppercase tracking-wider">Designed Ebook (Page 1)</p>
+                      <span className="text-[10px] text-emerald-300 uppercase tracking-wide">Styled + Branded</span>
+                    </div>
+
+                    <div className="relative rounded-xl overflow-hidden border border-[#F5A623]/40 bg-white min-h-[280px] shadow-xl">
+                      <div className="absolute inset-y-0 left-0 w-2 bg-gradient-to-b from-[#F5A623] via-amber-400 to-emerald-500" />
+                      <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-r from-[#0D1B2A] via-[#1E3A5F] to-[#0D1B2A]" />
+
+                      <div className="relative pt-12 pb-4 pl-6 pr-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <h3 className="text-[10px] tracking-[0.12em] text-gray-500 uppercase">CreatorLab Press</h3>
+                          <span className="text-[10px] font-semibold text-[#1E3A5F]">Pg 01</span>
+                        </div>
+
+                        <h4 className="text-xl font-black text-[#0D1B2A] leading-tight mb-1">The Creator Consistency Playbook</h4>
+                        <p className="text-[11px] font-bold text-[#1E3A5F] mb-3 uppercase tracking-wide">Chapter 1 — Why Consistency Matters</p>
+
+                        <div className="grid grid-cols-[1fr_auto] gap-3 items-start mb-3">
+                          <p className="text-[11px] text-gray-700 leading-relaxed">
+                            Most creators quit before momentum starts. Consistency compounds your results, builds trust,
+                            and makes growth predictable over time.
+                          </p>
+                          <div className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-1">
+                            <p className="text-[10px] font-semibold text-emerald-700">+214%</p>
+                            <p className="text-[9px] text-emerald-600">Engagement</p>
+                          </div>
+                        </div>
+
+                        <div className="rounded-lg bg-[#f8fafc] border border-slate-200 p-2 mb-3">
+                          <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Action Checklist</p>
+                          <ul className="space-y-1">
+                            <li className="text-[11px] text-gray-700">✓ Show up daily</li>
+                            <li className="text-[11px] text-gray-700">✓ Measure one metric</li>
+                            <li className="text-[11px] text-gray-700">✓ Improve one thing each week</li>
+                          </ul>
+                        </div>
+
+                        <div className="rounded-lg bg-amber-50 border border-amber-200 p-2">
+                          <p className="text-[10px] text-amber-700 font-semibold uppercase tracking-wide">Key Takeaway</p>
+                          <p className="text-[11px] text-amber-900 font-medium">Consistency beats intensity over time.</p>
+                        </div>
                       </div>
                     </div>
                   </div>
