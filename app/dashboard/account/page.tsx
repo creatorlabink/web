@@ -6,7 +6,6 @@ import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/lib/authContext';
-import { isAdminEmail } from '@/lib/adminAccess';
 import { adminUsersApi } from '@/lib/api';
 import { AdminUser } from '@/types';
 import { CountdownTimer } from '@/components/ui/CountdownTimer';
@@ -14,7 +13,7 @@ import { User, Mail, ShieldCheck, CreditCard, Tag } from 'lucide-react';
 
 export default function AccountPage() {
   const { user } = useAuth();
-  const isAdmin = isAdminEmail(user?.email);
+  const [hasAdminAccess, setHasAdminAccess] = useState(false);
 
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState<AdminUser[]>([]);
@@ -30,9 +29,15 @@ export default function AccountPage() {
       const res = await adminUsersApi.listUsers(searchValue || undefined);
       const data = res.data as { users?: AdminUser[] };
       setUsers(data.users ?? []);
+      setHasAdminAccess(true);
     } catch (err: unknown) {
+      const status = (err as { response?: { status?: number } })?.response?.status;
       const msg = (err as { response?: { data?: { error?: string } } })?.response?.data?.error;
-      setAdminError(msg || 'Could not load users');
+      if (status === 403) {
+        setHasAdminAccess(false);
+      } else {
+        setAdminError(msg || 'Could not load users');
+      }
     } finally {
       setLoadingUsers(false);
     }
@@ -55,10 +60,10 @@ export default function AccountPage() {
   };
 
   useEffect(() => {
-    if (isAdmin) {
+    if (user) {
       loadUsers();
     }
-  }, [isAdmin]);
+  }, [user?.email]);
 
   return (
     <DashboardLayout>
@@ -176,7 +181,7 @@ export default function AccountPage() {
           </Button>
         </Card>
 
-        {isAdmin && (
+        {hasAdminAccess && (
           <Card className="border-white/10 bg-white/5">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">
               Admin · Plan Access
