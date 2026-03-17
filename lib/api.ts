@@ -18,6 +18,7 @@ import type {
 } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+const API_BASE_ROOT = API_BASE_URL.replace(/\/api\/?$/, '');
 const LOCAL_MODE = process.env.NEXT_PUBLIC_LOCAL_MODE === 'true';
 
 const DEMO_USER: User = {
@@ -124,8 +125,21 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+const apiRoot = axios.create({
+  baseURL: API_BASE_ROOT,
+  headers: { 'Content-Type': 'application/json' },
+});
+
 // Attach JWT from cookie on every request
 api.interceptors.request.use((config) => {
+  const token = Cookies.get('cl_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+apiRoot.interceptors.request.use((config) => {
   const token = Cookies.get('cl_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -147,10 +161,43 @@ api.interceptors.response.use(
   }
 );
 
+apiRoot.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      Cookies.remove('cl_token');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/auth/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+async function withApiPrefixFallback<T>(
+  requestWithApiPrefix: () => Promise<T>,
+  requestWithoutApiPrefix: () => Promise<T>
+): Promise<T> {
+  try {
+    return await requestWithApiPrefix();
+  } catch (error: any) {
+    const status = error?.response?.status;
+    if (status === 404 && API_BASE_ROOT !== API_BASE_URL) {
+      return requestWithoutApiPrefix();
+    }
+    throw error;
+  }
+}
+
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 export const authApi = {
   signup: (email: string, password: string, name?: string) => {
-    if (!LOCAL_MODE) return api.post('/auth/signup', { email, password, name });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/auth/signup', { email, password, name }),
+        () => apiRoot.post('/auth/signup', { email, password, name })
+      );
+    }
     const user: User = {
       ...DEMO_USER,
       name: name || DEMO_USER.name,
@@ -159,7 +206,12 @@ export const authApi = {
     return localOk({ token: DEMO_TOKEN, user });
   },
   login: (email: string, password: string) => {
-    if (!LOCAL_MODE) return api.post('/auth/login', { email, password });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/auth/login', { email, password }),
+        () => apiRoot.post('/auth/login', { email, password })
+      );
+    }
     if (email.toLowerCase() !== DEMO_USER.email || password !== DEMO_PASSWORD) {
       localErr('Demo login failed. Use demo@creatorlab.io / creator123');
     }
@@ -193,16 +245,31 @@ export const authApi = {
     });
   },
   forgotPassword: (email: string) => {
-    if (!LOCAL_MODE) return api.post('/auth/forgot-password', { email });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/auth/forgot-password', { email }),
+        () => apiRoot.post('/auth/forgot-password', { email })
+      );
+    }
     return localOk({ message: 'If an account exists for this email, a password reset link has been sent.' });
   },
   verifyResetToken: (token: string) => {
-    if (!LOCAL_MODE) return api.get('/auth/reset-password/verify', { params: { token } });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/auth/reset-password/verify', { params: { token } }),
+        () => apiRoot.get('/auth/reset-password/verify', { params: { token } })
+      );
+    }
     if (!token) localErr('Invalid or expired reset link.');
     return localOk({ valid: true, email: 'de***@creatorlab.ink' });
   },
   resetPassword: (token: string, password: string, confirmPassword: string) => {
-    if (!LOCAL_MODE) return api.post('/auth/reset-password', { token, password, confirmPassword });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/auth/reset-password', { token, password, confirmPassword }),
+        () => apiRoot.post('/auth/reset-password', { token, password, confirmPassword })
+      );
+    }
     if (!token) localErr('Invalid or expired reset link.');
     if (password.length < 8) localErr('Password must be at least 8 characters.');
     if (password !== confirmPassword) localErr('Passwords do not match.');
