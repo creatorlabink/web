@@ -182,7 +182,8 @@ async function withApiPrefixFallback<T>(
     return await requestWithApiPrefix();
   } catch (error: any) {
     const status = error?.response?.status;
-    if (status === 404 && API_BASE_ROOT !== API_BASE_URL) {
+    const hasNoHttpResponse = !error?.response;
+    if ((status === 404 || hasNoHttpResponse) && API_BASE_ROOT !== API_BASE_URL) {
       return requestWithoutApiPrefix();
     }
     throw error;
