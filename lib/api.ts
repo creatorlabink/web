@@ -640,7 +640,12 @@ export const integrationsApi = {
 // ─── Admin Email System ─────────────────────────────────────────────────────
 export const adminEmailApi = {
   listTemplates: () => {
-    if (!LOCAL_MODE) return api.get('/admin/email/templates');
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/email/templates'),
+        () => apiRoot.get('/admin/email/templates')
+      );
+    }
     return localOk({
       templates: [
         { key: 'account_verification', name: 'Account Verification', description: 'Verify account', category: 'auth' },
@@ -650,7 +655,12 @@ export const adminEmailApi = {
     });
   },
   renderTemplate: (templateKey: string, variables: Record<string, unknown>) => {
-    if (!LOCAL_MODE) return api.post('/admin/email/render', { templateKey, variables });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/admin/email/render', { templateKey, variables }),
+        () => apiRoot.post('/admin/email/render', { templateKey, variables })
+      );
+    }
     return localOk({
       templateKey,
       subject: `Preview: ${templateKey}`,
@@ -659,21 +669,41 @@ export const adminEmailApi = {
     });
   },
   sendTemplate: (to: string, templateKey: string, variables: Record<string, unknown>) => {
-    if (!LOCAL_MODE) return api.post('/admin/email/send-template', { to, templateKey, variables });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/admin/email/send-template', { to, templateKey, variables }),
+        () => apiRoot.post('/admin/email/send-template', { to, templateKey, variables })
+      );
+    }
     return localOk({ success: true, id: 'local-template-email' });
   },
   sendCustom: (to: string, subject: string, html: string, text?: string) => {
-    if (!LOCAL_MODE) return api.post('/admin/email/send-custom', { to, subject, html, text });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post('/admin/email/send-custom', { to, subject, html, text }),
+        () => apiRoot.post('/admin/email/send-custom', { to, subject, html, text })
+      );
+    }
     return localOk({ success: true, id: 'local-custom-email' });
   },
   listMessages: (direction?: 'inbound' | 'outbound', limit = 50) => {
     if (!LOCAL_MODE) {
-      return api.get('/admin/email/messages', {
-        params: {
-          direction,
-          limit,
-        },
-      });
+      return withApiPrefixFallback(
+        () =>
+          api.get('/admin/email/messages', {
+            params: {
+              direction,
+              limit,
+            },
+          }),
+        () =>
+          apiRoot.get('/admin/email/messages', {
+            params: {
+              direction,
+              limit,
+            },
+          })
+      );
     }
     return localOk({ messages: [] });
   },
@@ -683,7 +713,10 @@ export const adminUsersApi = {
   listUsers: (search?: string) => {
     if (!LOCAL_MODE) {
       const query = search ? `?search=${encodeURIComponent(search)}` : '';
-      return api.get(`/admin/users${query}`);
+      return withApiPrefixFallback(
+        () => api.get(`/admin/users${query}`),
+        () => apiRoot.get(`/admin/users${query}`)
+      );
     }
 
     return localOk({
@@ -698,7 +731,12 @@ export const adminUsersApi = {
     });
   },
   updateUserPlan: (userId: string, plan: 'free' | 'lifetime' | 'annual') => {
-    if (!LOCAL_MODE) return api.patch(`/admin/users/${userId}/plan`, { plan });
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.patch(`/admin/users/${userId}/plan`, { plan }),
+        () => apiRoot.patch(`/admin/users/${userId}/plan`, { plan })
+      );
+    }
     return localOk({ user: { id: userId, plan } });
   },
 };

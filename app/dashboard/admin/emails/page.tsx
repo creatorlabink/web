@@ -6,7 +6,6 @@ import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/layout/DashboardHeader';
 import { adminEmailApi } from '@/lib/api';
 import { useAuth } from '@/lib/authContext';
-import { isAdminEmail } from '@/lib/adminAccess';
 import { AdminEmailMessage, AdminEmailTemplate } from '@/types';
 import { Loader2, Mail, Send, Inbox, Sparkles } from 'lucide-react';
 
@@ -59,7 +58,12 @@ export default function AdminEmailsPage() {
       if (nextTemplates.length && !nextTemplates.some((t) => t.key === selectedTemplate)) {
         setSelectedTemplate(nextTemplates[0].key);
       }
-    } catch {
+    } catch (error: unknown) {
+      const status = (error as { response?: { status?: number } })?.response?.status;
+      if (status === 403) {
+        router.replace('/dashboard/account');
+        return;
+      }
       setNotice('Failed to load admin email data.');
     } finally {
       setLoading(false);
@@ -76,11 +80,6 @@ export default function AdminEmailsPage() {
 
     if (!user) {
       router.replace('/auth/login?next=%2Fdashboard%2Fadmin%2Femails');
-      return;
-    }
-
-    if (!isAdminEmail(user.email)) {
-      router.replace('/dashboard');
       return;
     }
 
