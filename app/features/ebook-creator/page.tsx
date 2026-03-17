@@ -83,8 +83,8 @@ export default function EbookCreatorFeaturePage() {
 
                   <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-[#0D1B2A] to-[#132a43] p-4 shadow-2xl shadow-emerald-900/30">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-[#F5A623] uppercase tracking-wider" style={{ fontSize: '7px' }}>Designed Ebook (Page 1)</p>
-                      <span className="text-emerald-300 uppercase tracking-wide" style={{ fontSize: '5px' }}>Styled + Branded</span>
+                      <p className="text-[#F5A623] uppercase tracking-wider" style={{ fontSize: '12px' }}>Designed Ebook (Page 1)</p>
+                      <span className="text-emerald-300 uppercase tracking-wide" style={{ fontSize: '10px' }}>Styled + Branded</span>
                     </div>
 
                     <div className="relative rounded-xl overflow-hidden border border-[#F5A623]/40 bg-white min-h-[280px] shadow-xl">
