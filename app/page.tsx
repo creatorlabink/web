@@ -197,7 +197,7 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
-          FEATURED TOOLS — Unveil, Teleprompter, Ebook Creator
+          FEATURED TOOLS — Ebook Creator, Unveil, Teleprompter
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-gradient-to-b from-[#0a0a0a] to-gray-900">
         <div className="max-w-7xl mx-auto px-4">
@@ -213,17 +213,38 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Unveil */}
+            {/* Ebook Creator - MAIN FEATURE */}
+            <Link href="/features/ebook-creator" className="group">
+              <div className="relative bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-3xl p-8 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 h-full">
+                <div className="absolute top-4 right-4">
+                  <span className="bg-emerald-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">Core</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BookMarked className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-emerald-300 transition-colors">Ebook Creator</h3>
+                <p className="text-emerald-300 text-sm font-semibold uppercase tracking-wider mb-3">AI-Powered Ebook Generation</p>
+                <p className="text-gray-400 leading-relaxed mb-6">
+                  Drop in your raw text — notes, outlines, transcripts — and watch AI transform it into a polished, publication-ready ebook.
+                  Choose designer-quality templates, preview in real time, and export <span className="text-white font-semibold">pixel-perfect PDFs</span> ready to sell.
+                </p>
+                <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                  Explore Ebook Creator <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Unveil - For Teachers */}
             <Link href="/features/unveil" className="group">
               <div className="relative bg-gradient-to-br from-indigo-500/10 to-blue-500/5 border border-indigo-500/20 rounded-3xl p-8 hover:border-indigo-400/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 h-full">
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <Sparkles className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-black text-white mb-2 group-hover:text-indigo-300 transition-colors">Unveil</h3>
-                <p className="text-indigo-300 text-sm font-semibold uppercase tracking-wider mb-3">AI-Powered Ebook Creation</p>
+                <p className="text-indigo-300 text-sm font-semibold uppercase tracking-wider mb-3">Progressive Point Reveal for Teachers</p>
                 <p className="text-gray-400 leading-relaxed mb-6">
-                  Drop in your raw text — notes, outlines, transcripts — and watch AI transform it into a polished, publication-ready ebook. 
-                  Chapters detected. Headings styled. Quotes formatted. <span className="text-white font-semibold">All in seconds.</span>
+                  Perfect for educators and presenters. Create learning paths where your points are revealed <span className="text-white font-semibold">one at a time</span> — 
+                  keeping students focused and engaged, not overwhelmed by everything at once.
                 </p>
                 <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm group-hover:gap-3 transition-all">
                   Explore Unveil <ArrowRight className="w-4 h-4" />
@@ -231,7 +252,7 @@ export default function LandingPage() {
               </div>
             </Link>
 
-            {/* Teleprompter */}
+            {/* Teleprompter - For Content Creators */}
             <Link href="/features/teleprompter" className="group">
               <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/5 border border-purple-500/20 rounded-3xl p-8 hover:border-purple-400/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full">
                 <div className="absolute top-4 right-4">
@@ -239,37 +260,19 @@ export default function LandingPage() {
                 </div>
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
                   <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                    <line x1="12" x2="12" y1="19" y2="22" />
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <line x1="8" x2="16" y1="21" y2="21" />
+                    <line x1="12" x2="12" y1="17" y2="21" />
                   </svg>
                 </div>
                 <h3 className="text-2xl font-black text-white mb-2 group-hover:text-purple-300 transition-colors">Teleprompter</h3>
-                <p className="text-purple-300 text-sm font-semibold uppercase tracking-wider mb-3">Speak Your Ideas. We Format Them.</p>
+                <p className="text-purple-300 text-sm font-semibold uppercase tracking-wider mb-3">Script Reader for Video Creators</p>
                 <p className="text-gray-400 leading-relaxed mb-6">
-                  Not a writer? No problem. Paste your spoken content, coaching call transcripts, or podcast episodes — 
-                  Teleprompter cleans up the language, structures chapters, and creates a <span className="text-white font-semibold">publishable ebook from your voice</span>.
+                  Read your script from your laptop screen while filming videos or streaming live. Set it <span className="text-white font-semibold">super slow</span> to 
+                  glance occasionally while looking natural, or keep it visible as you present. Stay on message without memorizing.
                 </p>
                 <div className="flex items-center gap-2 text-purple-400 font-semibold text-sm group-hover:gap-3 transition-all">
                   Explore Teleprompter <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </Link>
-
-            {/* Ebook Creator */}
-            <Link href="/features/ebook-creator" className="group">
-              <div className="relative bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-3xl p-8 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 h-full">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <BookMarked className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-emerald-300 transition-colors">Ebook Creator</h3>
-                <p className="text-emerald-300 text-sm font-semibold uppercase tracking-wider mb-3">Templates, Styling & Export</p>
-                <p className="text-gray-400 leading-relaxed mb-6">
-                  The engine that brings it all together. Choose designer-quality templates, preview in real time, 
-                  customize colors and branding, and export <span className="text-white font-semibold">pixel-perfect PDFs</span> ready to sell or share.
-                </p>
-                <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm group-hover:gap-3 transition-all">
-                  Explore Ebook Creator <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
             </Link>

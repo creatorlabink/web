@@ -15,6 +15,7 @@ import type {
   IntegrationStatus,
   IntegrationConnectUrl,
   CelebioPublishResponse,
+  FeatureUsageStats,
 } from '@/types';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
@@ -872,6 +873,24 @@ export const adminAnalyticsApi = {
       topEvents: [],
       eventsByDay: [],
     });
+  },
+
+  getFeatureUsage: (): Promise<{ data: FeatureUsageStats }> => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/analytics/feature-usage'),
+        () => apiRoot.get('/admin/analytics/feature-usage')
+      );
+    }
+    return localOk({
+      totals: {
+        unveil: { total: 25, sessions: 10, pathsCreated: 8, reveals: 7, uniqueUsers: 4 },
+        teleprompter: { total: 18, sessions: 8, scriptsLoaded: 6, playbacks: 4, uniqueUsers: 3 },
+        ebook: { total: 40, editorOpened: 15, created: 12, updated: 8, downloads: 5, aiFormattingUsed: 10, uniqueUsers: 6 },
+      },
+      userUsage: [],
+      dailyUsage: [],
+    } as FeatureUsageStats);
   },
 };
 

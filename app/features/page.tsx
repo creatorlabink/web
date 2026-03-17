@@ -20,17 +20,35 @@ import {
 
 const features = [
   {
-    slug: 'unveil',
-    icon: Eye,
-    title: 'Unveil',
-    tagline: 'AI-Powered Ebook Creation',
+    slug: 'ebook-creator',
+    icon: BookOpen,
+    title: 'Ebook Creator',
+    tagline: 'AI-Powered Ebook Generation',
     description:
-      'Transform raw text into a polished, publication-ready ebook in minutes. Unveil uses advanced AI to detect structure, format chapters, style headings, and produce stunning layouts — no design skills required.',
+      'The powerhouse behind every CreatorLab ebook. Drop in your raw text and watch AI transform it into polished, publication-ready content. Choose from designer-quality templates, customize styling, preview in real-time, and export pixel-perfect PDFs ready to sell.',
     highlights: [
       'AI auto-detects chapters, headings, and quotes',
       '3 designer-quality templates',
+      'Real-time ebook preview',
       'One-click PDF export',
-      'Unlimited ebooks',
+    ],
+    gradient: 'from-emerald-500 to-teal-600',
+    bgGlow: 'from-emerald-600/20',
+    accentBg: 'bg-emerald-100',
+    accentText: 'text-emerald-600',
+  },
+  {
+    slug: 'unveil',
+    icon: Eye,
+    title: 'Unveil',
+    tagline: 'Progressive Point Reveal for Teachers',
+    description:
+      'Perfect for educators and presenters who want to reveal content one point at a time. Create learning paths where your material is unveiled progressively — keeping students focused and engaged, not overwhelmed by seeing everything at once.',
+    highlights: [
+      'Reveal points one-by-one',
+      'Create structured learning paths',
+      'Keep students focused & engaged',
+      'Perfect for live teaching',
     ],
     gradient: 'from-indigo-500 to-blue-600',
     bgGlow: 'from-indigo-600/20',
@@ -41,37 +59,19 @@ const features = [
     slug: 'teleprompter',
     icon: Mic,
     title: 'Teleprompter',
-    tagline: 'Speak Your Ideas, We Format Them',
+    tagline: 'Script Reader for Video Creators',
     description:
-      'Record or paste your spoken content and let Teleprompter turn rambling ideas into structured, publishable ebooks. Perfect for coaches, speakers, and creators who think out loud.',
+      'Read your script from your laptop screen while filming videos or streaming live. Set it super slow to glance occasionally while looking natural, or keep it visible as you present. Stay on message without memorizing — perfect for YouTubers, streamers, and content creators.',
     highlights: [
-      'Voice-to-ebook pipeline',
-      'AI cleans up spoken language',
-      'Auto-structures chapters from transcripts',
-      'Works with any recording or transcript',
+      'Adjustable scroll speed',
+      'Read while looking at camera',
+      'Perfect for live streaming',
+      'Never forget your talking points',
     ],
     gradient: 'from-purple-500 to-pink-600',
     bgGlow: 'from-purple-600/20',
     accentBg: 'bg-purple-100',
     accentText: 'text-purple-600',
-  },
-  {
-    slug: 'ebook-creator',
-    icon: BookOpen,
-    title: 'Ebook Creator',
-    tagline: 'Templates, Styling & Export Engine',
-    description:
-      'The powerhouse behind every CreatorLab ebook. Choose templates, customize styling, preview in real-time, and export pixel-perfect PDFs. Your content, your brand, your ebook — ready to sell.',
-    highlights: [
-      'Real-time ebook preview',
-      'Custom branding & colors',
-      'Multiple export formats',
-      'Publish to cele.bio & Gumroad',
-    ],
-    gradient: 'from-emerald-500 to-teal-600',
-    bgGlow: 'from-emerald-600/20',
-    accentBg: 'bg-emerald-100',
-    accentText: 'text-emerald-600',
   },
 ];
 

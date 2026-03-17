@@ -48,12 +48,12 @@ export default function TeleprompterFeaturePage() {
                 Teleprompter
               </h1>
               <p className="text-2xl text-purple-300 font-semibold mb-4">
-                Speak Your Ideas. We Format Them.
+                Script Reader for Video Creators
               </p>
               <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                Not everyone writes — some people <span className="text-white font-semibold">think out loud</span>. 
-                Teleprompter takes your spoken words, recordings, or rough transcripts and transforms them into clean, 
-                structured ebook content. Perfect for coaches, speakers, podcasters, and creators who know their stuff but hate typing.
+                Read your script from your laptop screen while <span className="text-white font-semibold">filming videos or streaming live</span>. 
+                Set it super slow to glance occasionally while looking natural, or keep it visible throughout your content. 
+                Perfect for YouTubers, streamers, and anyone who needs to stay on message without memorizing.
               </p>
               <Link href="/auth/signup" onClick={trackCta}>
                 <Button size="lg" className="text-lg px-10 py-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 shadow-xl shadow-purple-500/25 gap-2">
@@ -70,40 +70,48 @@ export default function TeleprompterFeaturePage() {
                     <div className="w-3 h-3 rounded-full bg-red-400" />
                     <div className="w-3 h-3 rounded-full bg-amber-400" />
                     <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                    <span className="text-gray-500 text-sm ml-2">teleprompter.ai</span>
+                    <span className="text-gray-500 text-sm ml-2">teleprompter.app</span>
                   </div>
 
-                  {/* Simulated voice-to-text */}
-                  <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-700">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center">
-                        <Mic className="w-4 h-4 text-white" />
+                  {/* Simulated teleprompter scroll */}
+                  <div className="bg-gray-900/80 rounded-xl p-6 border border-purple-500/30 min-h-[280px] flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
+                        <span className="text-red-400 text-xs font-semibold uppercase">Recording</span>
                       </div>
-                      <div className="flex-1 h-2 bg-gray-700 rounded-full overflow-hidden">
-                        <div className="h-full w-3/4 bg-gradient-to-r from-red-400 to-red-500 rounded-full animate-pulse" />
+                      <div className="flex items-center gap-2 text-gray-400 text-xs">
+                        <span>Speed:</span>
+                        <div className="w-20 h-1.5 bg-gray-700 rounded-full">
+                          <div className="w-1/4 h-full bg-purple-500 rounded-full" />
+                        </div>
+                        <span>Slow</span>
                       </div>
-                      <span className="text-gray-400 text-xs">2:34</span>
                     </div>
-                    <p className="text-gray-400 text-sm italic">
-                      &ldquo;...and the third thing I always tell my clients is, you have to focus on your morning routine because that sets the tone for everything else...&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="flex justify-center py-2">
-                    <Sparkles className="w-6 h-6 text-purple-400 animate-pulse" />
-                  </div>
-
-                  <div className="bg-purple-950/50 rounded-xl p-4 border border-purple-500/30">
-                    <p className="text-purple-400 text-xs uppercase tracking-wider mb-2">Formatted Output</p>
-                    <div className="space-y-2">
-                      <p className="text-white text-lg font-bold">Chapter 3: The Morning Routine Framework</p>
-                      <p className="text-gray-300 text-sm leading-relaxed">
-                        The third pillar of peak performance is your morning routine. It sets the tone for every decision, interaction, and outcome throughout the day.
-                      </p>
-                      <div className="bg-purple-900/30 rounded-lg p-3 border-l-3 border-purple-400">
-                        <p className="text-purple-200 text-xs font-semibold mb-1">KEY TAKEAWAY</p>
-                        <p className="text-gray-300 text-sm">Your morning routine isn&apos;t just a habit — it&apos;s the foundation of everything else.</p>
+                    
+                    <div className="flex-1 overflow-hidden relative">
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900/90" />
+                      <div className="space-y-4 text-center animate-pulse">
+                        <p className="text-gray-500 text-lg">...and that brings me to my next point.</p>
+                        <p className="text-white text-2xl font-medium leading-relaxed">
+                          The key to building an audience is consistency.
+                        </p>
+                        <p className="text-purple-300 text-xl">
+                          Show up every single day, even when you don&apos;t feel like it.
+                        </p>
+                        <p className="text-gray-400 text-lg">
+                          That&apos;s what separates successful creators from everyone else.
+                        </p>
                       </div>
+                    </div>
+
+                    <div className="flex justify-center gap-4 mt-4 pt-4 border-t border-gray-700">
+                      <button className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+                      </button>
+                      <button className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white">
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -119,8 +127,8 @@ export default function TeleprompterFeaturePage() {
           <div className="text-center mb-16">
             <span className="inline-block text-purple-600 text-sm font-bold uppercase tracking-wider mb-4">How It Works</span>
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
-              From Voice to<br />
-              <span className="text-purple-600">Published Ebook</span>
+              Read Your Script.<br />
+              <span className="text-purple-600">Stay Natural.</span>
             </h2>
           </div>
 
@@ -129,20 +137,20 @@ export default function TeleprompterFeaturePage() {
               {
                 step: '01',
                 icon: MessageSquare,
-                title: 'Paste Your Transcript',
-                desc: 'Drop in any spoken content — podcast transcripts, coaching call recordings, voice memos, or even raw dictation.',
+                title: 'Paste Your Script',
+                desc: 'Drop in your video script, talking points, or presentation notes. Any text works.',
               },
               {
                 step: '02',
                 icon: Sparkles,
-                title: 'AI Cleans & Structures',
-                desc: 'Teleprompter removes filler words, fixes grammar, identifies natural sections, and creates a logical flow.',
+                title: 'Set Your Speed',
+                desc: 'Adjust the scroll speed from super slow (occasional glances) to steady (constant reading). Find your rhythm.',
               },
               {
                 step: '03',
                 icon: PenLine,
-                title: 'Review & Publish',
-                desc: 'Fine-tune the AI\'s work, choose a template, and export a polished ebook — all from your spoken ideas.',
+                title: 'Record & Present',
+                desc: 'Start your video or stream. The text scrolls smoothly so you never lose your place.',
               },
             ].map(({ step, icon: Icon, title, desc }) => (
               <div key={step} className="relative bg-gray-50 rounded-2xl p-8 border border-gray-100">
@@ -163,17 +171,17 @@ export default function TeleprompterFeaturePage() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
-              Perfect For Creators Who<br />
-              <span className="text-purple-600">Think Out Loud</span>
+              Perfect For Video<br />
+              <span className="text-purple-600">Content Creators</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { icon: Headphones, title: 'Podcasters', desc: 'Turn your best episodes into downloadable ebook guides. Repurpose content effortlessly.' },
-              { icon: Mic, title: 'Speakers & Coaches', desc: 'Record your workshops or coaching calls and transform them into premium materials.' },
-              { icon: Type, title: 'Course Creators', desc: 'Dictate your course modules and let AI create matching ebook companions.' },
-              { icon: MessageSquare, title: 'Thought Leaders', desc: 'Capture your ideas through voice and publish polished thought leadership ebooks.' },
+              { icon: Headphones, title: 'YouTubers', desc: 'Read your video scripts while maintaining eye contact with the camera. No more retakes.' },
+              { icon: Mic, title: 'Live Streamers', desc: 'Keep your talking points visible while you stream. Never forget what you wanted to say.' },
+              { icon: Type, title: 'Course Creators', desc: 'Record polished course content without memorizing every line. Stay natural, stay focused.' },
+              { icon: MessageSquare, title: 'Presenters', desc: 'Deliver webinars and presentations confidently with your notes scrolling at your pace.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="flex gap-5 bg-white rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-all">
                 <div className="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center shrink-0">
@@ -188,17 +196,17 @@ export default function TeleprompterFeaturePage() {
           </div>
 
           <div className="mt-12 bg-purple-50 rounded-2xl p-8 border border-purple-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">What Teleprompter Does for You</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Why Creators Love Teleprompter</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {[
-                'Removes filler words (um, uh, like, you know...)',
-                'Fixes grammar and sentence structure',
-                'Creates chapter breaks from natural pauses',
-                'Formats lists and key points automatically',
-                'Adds professional headings and subheadings',
-                'Generates key takeaway callout boxes',
-                'Preserves your authentic voice and style',
-                'Works with any language or accent',
+                'Adjustable scroll speed from super slow to fast',
+                'Large, readable text that\'s easy to see',
+                'Glance occasionally or read continuously',
+                'Pause and resume with simple controls',
+                'Works on any laptop or desktop screen',
+                'Position it anywhere on your screen',
+                'Look natural while staying on script',
+                'Eliminate awkward pauses and retakes',
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
@@ -223,10 +231,10 @@ export default function TeleprompterFeaturePage() {
             </div>
           )}
           <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
-            Your Voice Has Value.<br />Turn It Into an Ebook.
+            Stop Memorizing.<br />Start Creating.
           </h2>
           <p className="text-xl text-purple-100 mb-10 max-w-2xl mx-auto">
-            Stop letting great ideas stay trapped in recordings. Publish them.
+            Read your scripts naturally and create better content, faster.
           </p>
           <Link href="/auth/signup" onClick={trackCta}>
             <Button

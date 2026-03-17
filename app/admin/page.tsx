@@ -17,7 +17,7 @@ import type {
   AdminUser, AdminEmailMessage, AdminEmailTemplate, AuthResponse,
   AdminDashboardStats, AdminUserDetails, AdminRevenueStats,
   AdminAnalyticsDashboard, AdminEbook, AdminAuditLog, AdminPagination,
-  AdminSystemStatus
+  AdminSystemStatus, FeatureUsageStats
 } from '@/types';
 
 // ============================================================================
@@ -546,6 +546,7 @@ export default function AdminPortalPage() {
   const [dashboardStats, setDashboardStats] = useState<AdminDashboardStats | null>(null);
   const [revenueStats, setRevenueStats] = useState<AdminRevenueStats | null>(null);
   const [analyticsData, setAnalyticsData] = useState<AdminAnalyticsDashboard | null>(null);
+  const [featureUsage, setFeatureUsage] = useState<FeatureUsageStats | null>(null);
   const [systemStatus, setSystemStatus] = useState<AdminSystemStatus | null>(null);
 
   // Users state
@@ -610,6 +611,15 @@ export default function AdminPortalPage() {
       setAnalyticsData(res.data as AdminAnalyticsDashboard);
     } catch (err) {
       console.error('Failed to load analytics:', err);
+    }
+  }, []);
+
+  const loadFeatureUsage = useCallback(async () => {
+    try {
+      const res = await adminAnalyticsApi.getFeatureUsage();
+      setFeatureUsage(res.data);
+    } catch (err) {
+      console.error('Failed to load feature usage:', err);
     }
   }, []);
 
@@ -754,6 +764,9 @@ export default function AdminPortalPage() {
       loadRevenueStats();
     } else if (activeTab === 'analytics' && !analyticsData) {
       loadAnalytics();
+      loadFeatureUsage();
+    } else if (activeTab === 'analytics' && !featureUsage) {
+      loadFeatureUsage();
     } else if (activeTab === 'system' && !systemStatus) {
       loadSystemStatus();
     } else if (activeTab === 'audit' && auditLogs.length === 0) {
@@ -1003,6 +1016,7 @@ export default function AdminPortalPage() {
                 loadUsers();
                 if (revenueStats) loadRevenueStats();
                 if (analyticsData) loadAnalytics();
+                if (featureUsage) loadFeatureUsage();
                 if (systemStatus) loadSystemStatus();
               }}
               className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-400 hover:text-white transition-colors"
@@ -1433,6 +1447,142 @@ export default function AdminPortalPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* Feature Usage Section */}
+                {featureUsage && (
+                  <div className="mt-8 space-y-6">
+                    <h2 className="text-lg font-semibold flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-amber-400" />
+                      Feature Usage Stats
+                    </h2>
+
+                    {/* Feature Usage Totals */}
+                    <div className="grid md:grid-cols-3 gap-6">
+                      {/* Unveil */}
+                      <div className="rounded-2xl border border-purple-500/20 bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-purple-300">Unveil</h3>
+                          <span className="text-2xl font-bold text-purple-400">{featureUsage.totals.unveil.total}</span>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Sessions</span>
+                            <span className="text-gray-300">{featureUsage.totals.unveil.sessions}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Paths Created</span>
+                            <span className="text-gray-300">{featureUsage.totals.unveil.pathsCreated}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Reveals</span>
+                            <span className="text-gray-300">{featureUsage.totals.unveil.reveals}</span>
+                          </div>
+                          <div className="flex justify-between border-t border-white/10 pt-2 mt-2">
+                            <span className="text-gray-400">Unique Users</span>
+                            <span className="text-purple-400 font-medium">{featureUsage.totals.unveil.uniqueUsers}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Teleprompter */}
+                      <div className="rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-cyan-300">Teleprompter</h3>
+                          <span className="text-2xl font-bold text-cyan-400">{featureUsage.totals.teleprompter.total}</span>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Sessions</span>
+                            <span className="text-gray-300">{featureUsage.totals.teleprompter.sessions}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Scripts Loaded</span>
+                            <span className="text-gray-300">{featureUsage.totals.teleprompter.scriptsLoaded}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Playbacks</span>
+                            <span className="text-gray-300">{featureUsage.totals.teleprompter.playbacks}</span>
+                          </div>
+                          <div className="flex justify-between border-t border-white/10 pt-2 mt-2">
+                            <span className="text-gray-400">Unique Users</span>
+                            <span className="text-cyan-400 font-medium">{featureUsage.totals.teleprompter.uniqueUsers}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Ebook Creation */}
+                      <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 p-5">
+                        <div className="flex items-center justify-between mb-4">
+                          <h3 className="font-semibold text-emerald-300">Ebook Creation</h3>
+                          <span className="text-2xl font-bold text-emerald-400">{featureUsage.totals.ebook.total}</span>
+                        </div>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Editor Opened</span>
+                            <span className="text-gray-300">{featureUsage.totals.ebook.editorOpened}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Created</span>
+                            <span className="text-gray-300">{featureUsage.totals.ebook.created}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Downloads</span>
+                            <span className="text-gray-300">{featureUsage.totals.ebook.downloads}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">AI Formatting</span>
+                            <span className="text-gray-300">{featureUsage.totals.ebook.aiFormattingUsed}</span>
+                          </div>
+                          <div className="flex justify-between border-t border-white/10 pt-2 mt-2">
+                            <span className="text-gray-400">Unique Users</span>
+                            <span className="text-emerald-400 font-medium">{featureUsage.totals.ebook.uniqueUsers}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Top Users by Feature Usage */}
+                    {featureUsage.userUsage.length > 0 && (
+                      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                        <h3 className="text-sm font-semibold mb-4 flex items-center gap-2">
+                          <Users className="w-4 h-4 text-indigo-400" />
+                          Top Users by Feature Usage
+                        </h3>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="text-left text-gray-400 border-b border-white/10">
+                                <th className="pb-3 font-medium">User</th>
+                                <th className="pb-3 font-medium text-right">Unveil</th>
+                                <th className="pb-3 font-medium text-right">Teleprompter</th>
+                                <th className="pb-3 font-medium text-right">Ebook</th>
+                                <th className="pb-3 font-medium text-right">Downloads</th>
+                                <th className="pb-3 font-medium text-right">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {featureUsage.userUsage.slice(0, 10).map(u => (
+                                <tr key={u.id} className="border-b border-white/5 hover:bg-white/5">
+                                  <td className="py-3">
+                                    <div className="flex flex-col">
+                                      <span className="font-medium">{u.name || 'No Name'}</span>
+                                      <span className="text-xs text-gray-500">{u.email}</span>
+                                    </div>
+                                  </td>
+                                  <td className="py-3 text-right text-purple-400">{u.unveilUsage}</td>
+                                  <td className="py-3 text-right text-cyan-400">{u.teleprompterUsage}</td>
+                                  <td className="py-3 text-right text-emerald-400">{u.ebookUsage}</td>
+                                  <td className="py-3 text-right text-amber-400">{u.downloads}</td>
+                                  <td className="py-3 text-right font-medium">{u.totalEvents}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </div>

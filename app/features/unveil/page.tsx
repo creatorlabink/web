@@ -49,11 +49,12 @@ export default function UnveilFeaturePage() {
                 Unveil
               </h1>
               <p className="text-2xl text-indigo-300 font-semibold mb-4">
-                AI-Powered Ebook Creation
+                Progressive Point Reveal for Teachers
               </p>
               <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                Drop in your raw text — notes, outlines, transcripts, anything — and watch as Unveil&apos;s AI engine
-                instantly transforms it into a beautifully structured, publication-ready ebook. No formatting headaches. No design degree. Just magic.
+                Create learning paths where your points are revealed <span className="text-white font-semibold">one at a time</span> —
+                not all at once. Perfect for educators, trainers, and presenters who want to keep students focused and engaged, 
+                building understanding step by step.
               </p>
               <Link href="/auth/signup" onClick={trackCta}>
                 <Button size="lg" className="text-lg px-10 py-6 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 shadow-xl shadow-indigo-500/25 gap-2">
@@ -70,25 +71,29 @@ export default function UnveilFeaturePage() {
                     <div className="w-3 h-3 rounded-full bg-red-400" />
                     <div className="w-3 h-3 rounded-full bg-amber-400" />
                     <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                    <span className="text-gray-500 text-sm ml-2">unveil-editor.ai</span>
+                    <span className="text-gray-500 text-sm ml-2">unveil-presenter.app</span>
                   </div>
 
-                  {/* Simulated transformation */}
+                  {/* Simulated progressive reveal */}
                   <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-700">
-                    <p className="text-gray-500 text-xs uppercase tracking-wider mb-2">Input</p>
-                    <p className="text-gray-300 text-sm font-mono leading-relaxed">
-                      so basically my framework has 3 pillars. first is mindset which is about...
-                    </p>
-                  </div>
-                  <div className="flex justify-center py-2">
-                    <Sparkles className="w-6 h-6 text-indigo-400 animate-pulse" />
-                  </div>
-                  <div className="bg-indigo-950/50 rounded-xl p-4 border border-indigo-500/30">
-                    <p className="text-indigo-400 text-xs uppercase tracking-wider mb-2">Output</p>
-                    <div className="space-y-2">
-                      <p className="text-white text-lg font-bold">Chapter 1: The Three Pillars</p>
-                      <p className="text-indigo-200 font-semibold">1.1 Pillar One — Mindset</p>
-                      <p className="text-gray-300 text-sm">The foundation of sustainable growth begins with...</p>
+                    <p className="text-indigo-400 text-xs uppercase tracking-wider mb-3">Your Learning Path</p>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
+                        <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">1</div>
+                        <p className="text-white text-sm font-medium">Introduction to the Framework</p>
+                      </div>
+                      <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
+                        <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">2</div>
+                        <p className="text-white text-sm font-medium">Core Principle #1: Mindset</p>
+                      </div>
+                      <div className="flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 opacity-50">
+                        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">3</div>
+                        <p className="text-gray-400 text-sm font-medium">??? (Click to reveal)</p>
+                      </div>
+                      <div className="flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 opacity-30">
+                        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">4</div>
+                        <p className="text-gray-500 text-sm font-medium">???</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -104,22 +109,22 @@ export default function UnveilFeaturePage() {
           <div className="text-center mb-16">
             <span className="inline-block text-indigo-600 text-sm font-bold uppercase tracking-wider mb-4">What Unveil Does</span>
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
-              Your AI Formatting<br />
-              <span className="text-indigo-600">Superpower</span>
+              Teach Smarter,<br />
+              <span className="text-indigo-600">Not Faster</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Unveil doesn&apos;t just reformat text. It understands structure, hierarchy, and flow — then creates a professional layout automatically.
+              Unveil helps you control the pace of learning. Reveal content step-by-step so students stay focused and engaged.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: Brain, title: 'Smart Chapter Detection', desc: 'AI identifies natural breaks and creates chapters with proper titling and numbering.' },
-              { icon: Layers, title: 'Auto Heading Hierarchy', desc: 'Headings, subheadings, and sections are layered perfectly — H1 to H4 and beyond.' },
-              { icon: FileText, title: 'Bullet & Quote Formatting', desc: 'Lists, key takeaways, and pull quotes are detected and styled beautifully.' },
-              { icon: Palette, title: 'Template Application', desc: 'Choose from Minimal, Business, or Workbook templates. Colors, fonts, and layout adapt instantly.' },
-              { icon: Wand2, title: 'AI Callout Boxes', desc: 'Key insights, tips, and warnings are highlighted in styled callout boxes automatically.' },
-              { icon: Sparkles, title: 'One-Click Polish', desc: 'The entire ebook is production-ready in one click. No manual formatting ever needed.' },
+              { icon: Layers, title: 'Progressive Reveal', desc: 'Show your points one at a time. Students see only what they need, when they need it.' },
+              { icon: Eye, title: 'Keep Focus', desc: 'No more overwhelming slides or walls of text. Students stay engaged with bite-sized reveals.' },
+              { icon: Brain, title: 'Build Understanding', desc: 'Layer concepts naturally. Each reveal builds on the last, creating stronger comprehension.' },
+              { icon: FileText, title: 'Learning Paths', desc: 'Create structured paths through your content. Guide students from start to finish.' },
+              { icon: Wand2, title: 'Click-to-Reveal', desc: 'Simple, intuitive interface. Click to reveal the next point when your audience is ready.' },
+              { icon: Sparkles, title: 'Perfect for Live Teaching', desc: 'Use during class, webinars, or presentations. Keep everyone on the same page.' },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:border-indigo-200 hover:shadow-md transition-all duration-200">
                 <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center mb-5">
@@ -133,56 +138,63 @@ export default function UnveilFeaturePage() {
         </div>
       </section>
 
-      {/* ─── Before / After ────────────────────────────────────────────── */}
+      {/* ─── Use Cases ────────────────────────────────────────────── */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-6">
-              See the Transformation
+              Perfect For
             </h2>
-            <p className="text-xl text-gray-600">Raw text in. Polished ebook out. In seconds.</p>
+            <p className="text-xl text-gray-600">Teachers and presenters who want engaged audiences.</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl p-8 border-2 border-red-100">
+            <div className="bg-white rounded-2xl p-8 border-2 border-indigo-100">
               <div className="flex items-center gap-3 mb-6">
-                <span className="bg-red-100 text-red-600 text-xs font-bold px-3 py-1 rounded-full uppercase">Before</span>
+                <span className="bg-indigo-100 text-indigo-600 text-xs font-bold px-3 py-1 rounded-full uppercase">Educators</span>
               </div>
-              <div className="font-mono text-sm text-gray-600 space-y-3 leading-relaxed">
-                <p>ok so my coaching program has basically 5 modules</p>
-                <p>module 1 is finding your niche... this is where you figure out what you want to focus on</p>
-                <p>module 2 - building the offer - you need a compelling offer that solves problems</p>
-                <p>- pricing strategy</p>
-                <p>- packaging</p>
-                <p>- positioning</p>
-                <p>then module 3 which is all about marketing...</p>
-              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                  <span>Reveal lesson points one at a time during class</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                  <span>Keep students focused on the current concept</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                  <span>Build understanding progressively</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                  <span>Control the pace of your lessons</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 border-2 border-emerald-100">
+            <div className="bg-white rounded-2xl p-8 border-2 border-purple-100">
               <div className="flex items-center gap-3 mb-6">
-                <span className="bg-emerald-100 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full uppercase">After</span>
+                <span className="bg-purple-100 text-purple-600 text-xs font-bold px-3 py-1 rounded-full uppercase">Presenters</span>
               </div>
-              <div className="text-sm space-y-3">
-                <h4 className="text-xl font-black text-gray-900 border-b border-gray-200 pb-2">The 5-Module Coaching Blueprint</h4>
-                <div>
-                  <p className="text-indigo-600 font-bold">Module 1 — Finding Your Niche</p>
-                  <p className="text-gray-600">Discover your area of focus and define the audience you&apos;re uniquely positioned to serve.</p>
-                </div>
-                <div>
-                  <p className="text-indigo-600 font-bold">Module 2 — Building Your Offer</p>
-                  <p className="text-gray-600 mb-2">Create a compelling offer designed to solve real problems:</p>
-                  <ul className="space-y-1 ml-4">
-                    <li className="flex items-center gap-2 text-gray-600"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Pricing strategy</li>
-                    <li className="flex items-center gap-2 text-gray-600"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Packaging</li>
-                    <li className="flex items-center gap-2 text-gray-600"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> Positioning</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="text-indigo-600 font-bold">Module 3 — Marketing Mastery</p>
-                  <p className="text-gray-600">Strategies to reach and convert your ideal clients...</p>
-                </div>
-              </div>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
+                  <span>Unveil talking points as you discuss them</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
+                  <span>Keep audiences engaged, not distracted</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
+                  <span>Create dramatic reveals for key points</span>
+                </li>
+                <li className="flex items-start gap-3 text-gray-600">
+                  <CheckCircle2 className="w-5 h-5 text-purple-500 shrink-0 mt-0.5" />
+                  <span>Never lose your place during a talk</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

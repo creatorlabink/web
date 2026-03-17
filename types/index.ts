@@ -372,3 +372,56 @@ export interface AiFormattedEbook {
     body: string;
   }[];
 }
+
+// ─── Feature Usage Stats ──────────────────────────────────────────────────────
+export interface FeatureUsageTotals {
+  unveil: {
+    total: number;
+    sessions: number;
+    pathsCreated: number;
+    reveals: number;
+    uniqueUsers: number;
+  };
+  teleprompter: {
+    total: number;
+    sessions: number;
+    scriptsLoaded: number;
+    playbacks: number;
+    uniqueUsers: number;
+  };
+  ebook: {
+    total: number;
+    editorOpened: number;
+    created: number;
+    updated: number;
+    downloads: number;
+    aiFormattingUsed: number;
+    uniqueUsers: number;
+  };
+}
+
+export interface FeatureUserUsage {
+  id: string;
+  email: string;
+  name: string | null;
+  plan: 'free' | 'lifetime' | 'annual';
+  unveilUsage: number;
+  teleprompterUsage: number;
+  ebookUsage: number;
+  downloads: number;
+  totalEvents: number;
+  lastActivity: string | null;
+}
+
+export interface FeatureDailyUsage {
+  date: string;
+  unveil: number;
+  teleprompter: number;
+  ebook: number;
+}
+
+export interface FeatureUsageStats {
+  totals: FeatureUsageTotals;
+  userUsage: FeatureUserUsage[];
+  dailyUsage: FeatureDailyUsage[];
+}
