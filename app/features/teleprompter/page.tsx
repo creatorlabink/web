@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { useOfferState } from '@/lib/offer';
@@ -22,6 +23,31 @@ import {
 
 export default function TeleprompterFeaturePage() {
   const { earlyOfferActive } = useOfferState();
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [speed, setSpeed] = useState(45);
+  const [textSize, setTextSize] = useState(32);
+  const [lineIndex, setLineIndex] = useState(0);
+
+  const scriptLines = useMemo(
+    () => [
+      '...and that brings me to my next point.',
+      'The key to building an audience is consistency.',
+      'Show up every single day, even when you don\'t feel like it.',
+      'That\'s what separates successful creators from everyone else.',
+      'You don\'t need perfect gear. You need clear messaging.',
+      'Speak directly to one person, and your content feels personal.',
+    ],
+    []
+  );
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const intervalMs = Math.max(900, 4500 - speed * 35);
+    const timer = window.setInterval(() => {
+      setLineIndex(prev => (prev + 1) % scriptLines.length);
+    }, intervalMs);
+    return () => window.clearInterval(timer);
+  }, [isPlaying, speed, scriptLines.length]);
 
   const trackCta = () => {
     analyticsApi.track('cta_click', {
@@ -77,41 +103,71 @@ export default function TeleprompterFeaturePage() {
                   <div className="bg-gray-900/80 rounded-xl p-6 border border-purple-500/30 min-h-[280px] flex flex-col">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-red-500 animate-pulse" />
-                        <span className="text-red-400 text-xs font-semibold uppercase">Recording</span>
+                        <div className={`w-3 h-3 rounded-full ${isPlaying ? 'bg-red-500 animate-pulse' : 'bg-gray-500'}`} />
+                        <span className={`text-xs font-semibold uppercase ${isPlaying ? 'text-red-400' : 'text-gray-400'}`}>
+                          {isPlaying ? 'Recording' : 'Paused'}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400 text-xs">
-                        <span>Speed:</span>
-                        <div className="w-20 h-1.5 bg-gray-700 rounded-full">
-                          <div className="w-1/4 h-full bg-purple-500 rounded-full" />
-                        </div>
-                        <span>Slow</span>
-                      </div>
+                      <span className="text-gray-500 text-xs">Read-only demo</span>
                     </div>
                     
                     <div className="flex-1 overflow-hidden relative">
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900/90" />
-                      <div className="space-y-4 text-center animate-pulse">
-                        <p className="text-gray-500 text-lg">...and that brings me to my next point.</p>
-                        <p className="text-white text-2xl font-medium leading-relaxed">
-                          The key to building an audience is consistency.
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900/90 pointer-events-none" />
+                      <div className="space-y-4 text-center transition-all duration-700">
+                        <p className="text-gray-500" style={{ fontSize: `${Math.max(16, textSize - 8)}px` }}>
+                          {scriptLines[(lineIndex + scriptLines.length - 1) % scriptLines.length]}
                         </p>
-                        <p className="text-purple-300 text-xl">
-                          Show up every single day, even when you don&apos;t feel like it.
+                        <p className="text-white font-semibold leading-relaxed" style={{ fontSize: `${textSize}px` }}>
+                          {scriptLines[lineIndex]}
                         </p>
-                        <p className="text-gray-400 text-lg">
-                          That&apos;s what separates successful creators from everyone else.
+                        <p className="text-purple-300" style={{ fontSize: `${Math.max(18, textSize - 4)}px` }}>
+                          {scriptLines[(lineIndex + 1) % scriptLines.length]}
+                        </p>
+                        <p className="text-gray-400" style={{ fontSize: `${Math.max(16, textSize - 8)}px` }}>
+                          {scriptLines[(lineIndex + 2) % scriptLines.length]}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex justify-center gap-4 mt-4 pt-4 border-t border-gray-700">
-                      <button className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center text-white">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
-                      </button>
-                      <button className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                      </button>
+                    <div className="mt-4 pt-4 border-t border-gray-700 space-y-3">
+                      <div className="flex items-center gap-3 text-xs text-gray-300">
+                        <span className="w-14">Speed</span>
+                        <input
+                          type="range"
+                          min={10}
+                          max={100}
+                          value={speed}
+                          onChange={(e) => setSpeed(Number(e.target.value))}
+                          className="flex-1 accent-purple-500"
+                        />
+                        <span className="w-9 text-right">{speed}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs text-gray-300">
+                        <span className="w-14">Text Size</span>
+                        <input
+                          type="range"
+                          min={24}
+                          max={44}
+                          value={textSize}
+                          onChange={(e) => setTextSize(Number(e.target.value))}
+                          className="flex-1 accent-purple-500"
+                        />
+                        <span className="w-9 text-right">{textSize}</span>
+                      </div>
+                      <div className="flex justify-center gap-4">
+                        <button
+                          type="button"
+                          onClick={() => setIsPlaying(prev => !prev)}
+                          className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-white transition-colors"
+                          aria-label={isPlaying ? 'Pause teleprompter' : 'Play teleprompter'}
+                        >
+                          {isPlaying ? (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+                          ) : (
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                          )}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

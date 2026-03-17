@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { useOfferState } from '@/lib/offer';
@@ -23,6 +24,7 @@ import {
 
 export default function UnveilFeaturePage() {
   const { earlyOfferActive } = useOfferState();
+  const [revealedCount, setRevealedCount] = useState(0);
 
   const trackCta = () => {
     analyticsApi.track('cta_click', {
@@ -76,7 +78,7 @@ export default function UnveilFeaturePage() {
 
                   {/* Simulated progressive reveal */}
                   <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-700">
-                    <p className="text-indigo-400 text-xs uppercase tracking-wider mb-3">Your Learning Path</p>
+                    <p className="text-indigo-400 text-xs uppercase tracking-wider mb-3">Click to Unveil (Read-only demo)</p>
                     <div className="space-y-3">
                       <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
                         <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">1</div>
@@ -86,14 +88,36 @@ export default function UnveilFeaturePage() {
                         <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">2</div>
                         <p className="text-white text-sm font-medium">Core Principle #1: Mindset</p>
                       </div>
-                      <div className="flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 opacity-50">
+                      <button
+                        type="button"
+                        onClick={() => setRevealedCount(prev => Math.min(2, prev + 1))}
+                        className="w-full text-left flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-indigo-500/40 transition-colors"
+                      >
                         <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <p className="text-gray-400 text-sm font-medium">??? (Click to reveal)</p>
-                      </div>
-                      <div className="flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 opacity-30">
-                        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">4</div>
-                        <p className="text-gray-500 text-sm font-medium">???</p>
-                      </div>
+                        <p className="text-gray-300 text-sm font-medium">Click to reveal next point</p>
+                      </button>
+                      {revealedCount >= 1 && (
+                        <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30 animate-in fade-in duration-300">
+                          <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">3</div>
+                          <p className="text-white text-sm font-medium">Core Principle #2: Consistency</p>
+                        </div>
+                      )}
+                      {revealedCount >= 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setRevealedCount(prev => Math.min(2, prev + 1))}
+                          className="w-full text-left flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-indigo-500/40 transition-colors"
+                        >
+                          <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">4</div>
+                          <p className="text-gray-300 text-sm font-medium">Click to reveal final point</p>
+                        </button>
+                      )}
+                      {revealedCount >= 2 && (
+                        <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30 animate-in fade-in duration-300">
+                          <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">4</div>
+                          <p className="text-white text-sm font-medium">Core Principle #3: Daily Action</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

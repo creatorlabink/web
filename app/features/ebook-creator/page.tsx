@@ -63,48 +63,44 @@ export default function EbookCreatorFeaturePage() {
               </Link>
             </div>
 
-            {/* Visual — template fan */}
-            <div className="relative flex items-center justify-center h-[420px]">
-              {/* Background template cards */}
-              <div className="absolute w-56 h-72 bg-gradient-to-br from-[#5B21B6] to-[#7c3aed] rounded-2xl shadow-xl transform -rotate-6 -translate-x-16 border border-purple-500/30">
-                <div className="p-5">
-                  <div className="w-12 h-1.5 bg-amber-400 rounded mb-3" />
-                  <div className="w-full h-1 bg-white/20 rounded mb-2" />
-                  <div className="w-3/4 h-1 bg-white/15 rounded mb-4" />
-                  <div className="w-full h-20 bg-white/10 rounded-lg" />
-                </div>
-                <div className="absolute bottom-4 left-5 right-5">
-                  <span className="text-white/60 text-xs font-bold">Workbook</span>
-                </div>
-              </div>
-              <div className="absolute w-56 h-72 bg-gradient-to-br from-[#1E3A5F] to-[#2d5a8a] rounded-2xl shadow-xl transform rotate-6 translate-x-16 border border-blue-500/30">
-                <div className="p-5">
-                  <div className="w-12 h-1.5 bg-[#C9A227] rounded mb-3" />
-                  <div className="w-full h-1 bg-white/20 rounded mb-2" />
-                  <div className="w-3/4 h-1 bg-white/15 rounded mb-4" />
-                  <div className="w-full h-20 bg-white/10 rounded-lg" />
-                </div>
-                <div className="absolute bottom-4 left-5 right-5">
-                  <span className="text-white/60 text-xs font-bold">Business</span>
-                </div>
-              </div>
-              {/* Front template */}
-              <div className="relative w-60 h-80 bg-gradient-to-br from-[#0D1B2A] to-[#1a2f4a] rounded-2xl shadow-2xl border-2 border-[#F5A623]/50 z-10">
-                <div className="p-5">
-                  <div className="w-14 h-2 bg-[#F5A623] rounded mb-4" />
-                  <div className="w-full h-1.5 bg-white/20 rounded mb-2" />
-                  <div className="w-5/6 h-1.5 bg-white/15 rounded mb-2" />
-                  <div className="w-3/4 h-1.5 bg-white/10 rounded mb-5" />
-                  <div className="w-full h-24 bg-white/5 rounded-lg border border-white/10 p-3">
-                    <div className="w-3/4 h-1 bg-[#F5A623]/40 rounded mb-2" />
-                    <div className="w-full h-1 bg-white/10 rounded mb-1.5" />
-                    <div className="w-5/6 h-1 bg-white/10 rounded mb-1.5" />
-                    <div className="w-full h-1 bg-white/10 rounded" />
+            {/* Visual — plain text to designed page */}
+            <div className="relative">
+              <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-3xl p-6 backdrop-blur-sm">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="rounded-2xl border border-white/10 bg-gray-900/70 p-4">
+                    <p className="text-emerald-300 text-xs uppercase tracking-wider mb-3">Plain Text Input</p>
+                    <div className="space-y-2 text-xs text-gray-300 font-mono leading-relaxed">
+                      <p>title: The Creator Consistency Playbook</p>
+                      <p>chapter 1 - why consistency matters</p>
+                      <p>Most creators quit before they get momentum...</p>
+                      <p>- show up daily</p>
+                      <p>- measure one metric</p>
+                      <p>- improve one thing each week</p>
+                      <p>chapter 2 - build a repeatable workflow</p>
+                      <p>Create, publish, review, repeat...</p>
+                    </div>
                   </div>
-                </div>
-                <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
-                  <span className="text-white/60 text-xs font-bold">Minimal</span>
-                  <span className="text-[#F5A623] text-xs font-bold">★ Popular</span>
+
+                  <div className="rounded-2xl border border-emerald-500/30 bg-[#0D1B2A] p-4 shadow-xl">
+                    <p className="text-[#F5A623] text-xs uppercase tracking-wider mb-3">Designed Ebook (Page 1)</p>
+                    <div className="bg-white rounded-xl p-4 min-h-[240px]">
+                      <h3 className="text-[10px] tracking-wide text-gray-500 uppercase mb-1">CreatorLab Press</h3>
+                      <h4 className="text-lg font-black text-[#0D1B2A] leading-tight mb-2">The Creator Consistency Playbook</h4>
+                      <p className="text-xs font-semibold text-[#1E3A5F] mb-2">Chapter 1 — Why Consistency Matters</p>
+                      <p className="text-[11px] text-gray-700 leading-relaxed mb-3">
+                        Most creators quit before momentum starts. Consistency compounds your results, builds trust, and makes growth predictable.
+                      </p>
+                      <ul className="space-y-1 mb-3">
+                        <li className="text-[11px] text-gray-700">• Show up daily</li>
+                        <li className="text-[11px] text-gray-700">• Measure one metric</li>
+                        <li className="text-[11px] text-gray-700">• Improve one thing each week</li>
+                      </ul>
+                      <div className="rounded-lg bg-amber-50 border border-amber-200 p-2">
+                        <p className="text-[10px] text-amber-700 font-semibold">Key Takeaway</p>
+                        <p className="text-[11px] text-amber-900">Consistency beats intensity over time.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
