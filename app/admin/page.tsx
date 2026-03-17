@@ -914,7 +914,7 @@ export default function AdminPortalPage() {
   // ============================================================================
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex">
       {selectedUserId && (
         <UserDetailDrawer
           userId={selectedUserId}
@@ -923,18 +923,80 @@ export default function AdminPortalPage() {
         />
       )}
 
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0a0a0a]/90 backdrop-blur px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
+      {/* Sidebar */}
+      <aside className="fixed left-0 top-0 bottom-0 w-64 bg-[#0a0a0a] border-r border-white/10 flex flex-col z-30">
+        {/* Logo */}
+        <div className="p-5 border-b border-white/10">
+          <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-lg font-bold">CreatorLab Admin</h1>
-              <p className="text-xs text-gray-400">World-class dashboard</p>
+              <h1 className="font-bold">CreatorLab</h1>
+              <p className="text-xs text-gray-500">Admin Portal</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {TABS.map(tab => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveTab(tab.key)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeTab === tab.key
+                  ? 'bg-indigo-500/20 text-indigo-300 border-l-2 border-indigo-500'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <tab.icon className="w-4 h-4" />
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* User section */}
+        <div className="p-4 border-t border-white/10">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <span className="text-xs font-bold text-indigo-300">
+                {user?.email?.charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{user?.name || 'Admin'}</p>
+              <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+            </div>
+          </div>
+          <button
+            onClick={() => { logout(); router.replace('/admin'); }}
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-sm text-gray-400 hover:text-white transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            Sign out
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 ml-64">
+        {/* Top Bar */}
+        <header className="sticky top-0 z-20 bg-[#0a0a0a]/95 backdrop-blur border-b border-white/10 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-bold capitalize">{activeTab}</h2>
+              <p className="text-sm text-gray-500">
+                {activeTab === 'overview' && 'Platform overview and key metrics'}
+                {activeTab === 'users' && 'Manage users, plans, and access'}
+                {activeTab === 'revenue' && 'Revenue analytics and transactions'}
+                {activeTab === 'analytics' && 'User behavior and conversion funnels'}
+                {activeTab === 'ebooks' && 'All ebooks created on the platform'}
+                {activeTab === 'emails' && 'Email templates and messaging'}
+                {activeTab === 'audit' && 'Admin activity and audit trail'}
+                {activeTab === 'system' && 'System health and database stats'}
+              </p>
+            </div>
             <button
               onClick={() => {
                 loadDashboardStats();
@@ -943,60 +1005,35 @@ export default function AdminPortalPage() {
                 if (analyticsData) loadAnalytics();
                 if (systemStatus) loadSystemStatus();
               }}
-              className="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-400 hover:text-white transition-colors"
               title="Refresh data"
             >
               <RefreshCw className="w-4 h-4" />
-            </button>
-            <span className="text-sm text-gray-400">{user?.email}</span>
-            <button
-              onClick={() => { logout(); router.replace('/admin'); }}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-sm"
-            >
-              <LogOut className="w-4 h-4" />
-              Sign out
+              Refresh
             </button>
           </div>
-        </div>
+        </header>
 
-        <div className="flex gap-1 mt-4 overflow-x-auto pb-1">
-          {TABS.map(tab => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
-                activeTab === tab.key
-                  ? 'bg-indigo-500/20 text-indigo-300'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              <tab.icon className="w-4 h-4" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {(error || successMsg) && (
-        <div className="px-6 pt-4">
-          {error && (
-            <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-300 flex items-center justify-between">
-              {error}
-              <button onClick={() => setError('')} className="text-rose-400 hover:text-rose-300">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-          {successMsg && (
-            <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300 flex items-center justify-between">
-              {successMsg}
-              <button onClick={() => setSuccessMsg('')} className="text-emerald-400 hover:text-emerald-300">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+        {(error || successMsg) && (
+          <div className="px-6 pt-4">
+            {error && (
+              <div className="rounded-lg border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-300 flex items-center justify-between">
+                {error}
+                <button onClick={() => setError('')} className="text-rose-400 hover:text-rose-300">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+            {successMsg && (
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-300 flex items-center justify-between">
+                {successMsg}
+                <button onClick={() => setSuccessMsg('')} className="text-emerald-400 hover:text-emerald-300">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
       <main className="p-6">
         {activeTab === 'overview' && dashboardStats && (
@@ -1730,6 +1767,7 @@ export default function AdminPortalPage() {
           </div>
         )}
       </main>
+      </div>
     </div>
   );
 }
