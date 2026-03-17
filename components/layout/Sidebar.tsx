@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/authContext';
-import { isAdminEmail } from '@/lib/adminAccess';
 import { cn } from '@/lib/utils';
 import {
   Crown,
@@ -15,7 +14,6 @@ import {
   MonitorPlay,
   Sparkles,
   Plug,
-  Shield,
 } from 'lucide-react';
 
 const navItems = [
@@ -27,14 +25,11 @@ const navItems = [
   { href: '/dashboard/account', label: 'Account', icon: User },
 ];
 
-const adminNavItem = { href: '/dashboard/admin/emails', label: 'Admin Emails', icon: Shield };
-
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const isLifetime = user?.plan === 'lifetime';
-  const isAdmin = isAdminEmail(user?.email);
-  const visibleNavItems = isAdmin ? [...navItems, adminNavItem] : navItems;
+  const visibleNavItems = navItems;
 
   return (
     <aside className="w-72 shrink-0 h-screen sticky top-0 flex flex-col bg-[#0a0a0a] border-r border-white/10">
