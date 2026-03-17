@@ -193,6 +193,12 @@ export default function LoginPage() {
                 className="bg-white/5 border-white/10 text-white placeholder-gray-500"
               />
 
+              <div className="-mt-2 text-right">
+                <Link href="/auth/forgot-password" className="text-xs text-indigo-400 hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+
               <Button type="submit" className="w-full mt-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500" loading={loading} size="md">
                 Log in to my account
               </Button>
