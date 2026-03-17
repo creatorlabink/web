@@ -696,7 +696,10 @@ export default function AdminPortalPage() {
       return true;
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
+      // 401/403 = not admin, 404 = endpoint not found (deploy issue), other = unknown error
       if (status === 403 || status === 401) return false;
+      // For other errors, log and re-throw with better context
+      console.error('verifyAdminSession error:', status, err);
       throw err;
     }
   };
@@ -727,8 +730,12 @@ export default function AdminPortalPage() {
       setRecipient(user.email || '');
       setAdminReady(true);
       setError('');
-    } catch {
-      setError('Could not load admin tools.');
+    } catch (err: unknown) {
+      const data = (err as { response?: { data?: { error?: string; message?: string } } })?.response?.data;
+      const status = (err as { response?: { status?: number } })?.response?.status;
+      const errorMsg = data?.message || data?.error || `Admin API error (${status || 'network'})`;
+      console.error('initializeAdmin error:', err);
+      setError(errorMsg);
       setAdminReady(false);
     } finally {
       setPageLoading(false);
@@ -768,19 +775,11 @@ export default function AdminPortalPage() {
       const res = await authApi.login(email.trim(), password);
       const { token, user: nextUser } = res.data as AuthResponse;
       login(token, nextUser);
-
-      const ok = await verifyAdminSession();
-      if (!ok) {
-        logout();
-        setError('Access denied. Only admin accounts can use this page.');
-        return;
-      }
-
-      await Promise.all([loadDashboardStats(), loadUsers(), loadEmailData()]);
-      setRecipient(nextUser.email || '');
-      setAdminReady(true);
+      
+      // Clear form - initializeAdmin will run via useEffect and handle the rest
       setEmail('');
       setPassword('');
+      // Note: initializeAdmin runs automatically when user state changes
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
       const data = (err as { response?: { data?: { error?: string; message?: string } } })?.response?.data;
