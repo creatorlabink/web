@@ -24,7 +24,24 @@ import {
 
 export default function UnveilFeaturePage() {
   const { earlyOfferActive } = useOfferState();
-  const [revealedCount, setRevealedCount] = useState(0);
+  const [boxColor, setBoxColor] = useState('#6366f1');
+  const [revealedSteps, setRevealedSteps] = useState<Record<number, boolean>>({
+    1: true,
+    2: true,
+    3: true,
+    4: false,
+    5: false,
+    6: false,
+  });
+
+  const demoSteps = [
+    'Introduction to the Framework',
+    'Core Principle #1: Mindset',
+    'Core Principle #2: Consistency',
+    'Core Principle #3: Daily Action',
+    'Core Principle #4: Focus Blocks',
+    'Core Principle #5: Reflection Loop',
+  ];
 
   const trackCta = () => {
     analyticsApi.track('cta_click', {
@@ -78,46 +95,52 @@ export default function UnveilFeaturePage() {
 
                   {/* Simulated progressive reveal */}
                   <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-700">
-                    <p className="text-indigo-400 text-xs uppercase tracking-wider mb-3">Click to Unveil (Read-only demo)</p>
+                    <div className="flex items-center justify-between gap-3 mb-3">
+                      <p className="text-indigo-400 text-xs uppercase tracking-wider">Click to Unveil / Cover (Read-only demo)</p>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] uppercase tracking-wider text-gray-500">Box Color</span>
+                        <input
+                          type="color"
+                          value={boxColor}
+                          onChange={(e) => setBoxColor(e.target.value)}
+                          className="w-7 h-7 rounded cursor-pointer border border-gray-600 bg-transparent"
+                          aria-label="Choose Unveil box color"
+                        />
+                      </div>
+                    </div>
                     <div className="space-y-3">
-                      <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
-                        <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">1</div>
-                        <p className="text-white text-sm font-medium">Introduction to the Framework</p>
-                      </div>
-                      <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
-                        <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">2</div>
-                        <p className="text-white text-sm font-medium">Core Principle #1: Mindset</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setRevealedCount(prev => Math.min(2, prev + 1))}
-                        className="w-full text-left flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-indigo-500/40 transition-colors"
-                      >
-                        <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">3</div>
-                        <p className="text-gray-300 text-sm font-medium">Click to reveal next point</p>
-                      </button>
-                      {revealedCount >= 1 && (
-                        <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30 animate-in fade-in duration-300">
-                          <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">3</div>
-                          <p className="text-white text-sm font-medium">Core Principle #2: Consistency</p>
-                        </div>
-                      )}
-                      {revealedCount >= 1 && (
-                        <button
-                          type="button"
-                          onClick={() => setRevealedCount(prev => Math.min(2, prev + 1))}
-                          className="w-full text-left flex items-center gap-3 p-2 bg-gray-800/50 rounded-lg border border-gray-700 hover:border-indigo-500/40 transition-colors"
-                        >
-                          <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-white text-xs font-bold">4</div>
-                          <p className="text-gray-300 text-sm font-medium">Click to reveal final point</p>
-                        </button>
-                      )}
-                      {revealedCount >= 2 && (
-                        <div className="flex items-center gap-3 p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30 animate-in fade-in duration-300">
-                          <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold">4</div>
-                          <p className="text-white text-sm font-medium">Core Principle #3: Daily Action</p>
-                        </div>
-                      )}
+                      {demoSteps.map((title, index) => {
+                        const stepNumber = index + 1;
+                        const isRevealed = !!revealedSteps[stepNumber];
+
+                        return (
+                          <button
+                            key={title}
+                            type="button"
+                            onClick={() =>
+                              setRevealedSteps(prev => ({
+                                ...prev,
+                                [stepNumber]: !prev[stepNumber],
+                              }))
+                            }
+                            className="w-full text-left flex items-center gap-3 p-2 rounded-lg border transition-colors"
+                            style={{
+                              backgroundColor: isRevealed ? `${boxColor}33` : '#1f293733',
+                              borderColor: isRevealed ? `${boxColor}80` : '#374151',
+                            }}
+                          >
+                            <div
+                              className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                              style={{ backgroundColor: isRevealed ? boxColor : '#4b5563' }}
+                            >
+                              {stepNumber}
+                            </div>
+                            <p className={`text-sm font-medium ${isRevealed ? 'text-white' : 'text-gray-300'}`}>
+                              {isRevealed ? title : 'Click to unveil'}
+                            </p>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

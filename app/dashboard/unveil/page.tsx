@@ -21,6 +21,7 @@ interface LearningPath {
   description: string;
   steps: Step[];
   animation: 'curtain' | 'rise' | 'scale';
+  boxColor: string;
   revealed: Record<string, boolean>;
   createdAt: string;
 }
@@ -35,6 +36,7 @@ const defaultPath = (): LearningPath => ({
   description: '',
   steps: [{ id: generateId(), title: '', body: '', mustSee: false }],
   animation: 'curtain',
+  boxColor: '#f59e0b',
   revealed: {},
   createdAt: new Date().toISOString(),
 });
@@ -103,7 +105,7 @@ export default function UnveilPage() {
   };
 
   const editPath = (path: LearningPath) => {
-    setEditingPath({ ...path });
+    setEditingPath({ ...path, boxColor: path.boxColor || '#f59e0b' });
     setMode('edit');
   };
 
@@ -167,6 +169,19 @@ export default function UnveilPage() {
     const updated = { ...currentPath, revealed: {} };
     setCurrentPath(updated);
     
+    const pathIndex = paths.findIndex(p => p.id === currentPath.id);
+    if (pathIndex >= 0) {
+      const updatedPaths = [...paths];
+      updatedPaths[pathIndex] = updated;
+      savePaths(updatedPaths);
+    }
+  };
+
+  const updateRevealColor = (nextColor: string) => {
+    if (!currentPath) return;
+    const updated = { ...currentPath, boxColor: nextColor };
+    setCurrentPath(updated);
+
     const pathIndex = paths.findIndex(p => p.id === currentPath.id);
     if (pathIndex >= 0) {
       const updatedPaths = [...paths];
@@ -477,6 +492,31 @@ export default function UnveilPage() {
 
           {/* Animation Selection */}
           <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6">
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-3">Box Color</h3>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  value={editingPath.boxColor || '#f59e0b'}
+                  onChange={(e) => setEditingPath({ ...editingPath, boxColor: e.target.value })}
+                  className="w-12 h-12 rounded-lg cursor-pointer border border-gray-700 bg-transparent"
+                  aria-label="Choose Unveil box color"
+                />
+                <div className="flex gap-2">
+                  {['#f59e0b', '#6366f1', '#06b6d4', '#10b981', '#ef4444', '#a855f7'].map((preset) => (
+                    <button
+                      key={preset}
+                      type="button"
+                      onClick={() => setEditingPath({ ...editingPath, boxColor: preset })}
+                      className="w-7 h-7 rounded-full border border-gray-700"
+                      style={{ backgroundColor: preset }}
+                      aria-label={`Set color ${preset}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <h3 className="text-lg font-semibold text-white mb-4">Reveal Animation</h3>
             <div className="grid grid-cols-3 gap-3">
               {[
@@ -510,6 +550,7 @@ export default function UnveilPage() {
 
   // Reveal View
   if (mode === 'reveal' && currentPath) {
+    const activeBoxColor = currentPath.boxColor || '#f59e0b';
     const totalSteps = currentPath.steps.length;
     const revealedSteps = Object.values(currentPath.revealed).filter(Boolean).length;
     const progress = totalSteps > 0 ? (revealedSteps / totalSteps) * 100 : 0;
@@ -529,13 +570,27 @@ export default function UnveilPage() {
                 <div className="hidden sm:flex items-center gap-3">
                   <div className="w-32 h-2 bg-gray-800 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
-                      style={{ width: `${progress}%` }}
+                      className="h-full transition-all duration-500"
+                      style={{
+                        width: `${progress}%`,
+                        background: `linear-gradient(to right, ${activeBoxColor}, ${activeBoxColor}cc)`,
+                      }}
                     />
                   </div>
                   <span className="text-sm text-gray-400">
                     {revealedSteps}/{totalSteps}
                   </span>
+                </div>
+
+                <div className="hidden sm:flex items-center gap-2">
+                  <span className="text-xs text-gray-500 uppercase tracking-wide">Color</span>
+                  <input
+                    type="color"
+                    value={activeBoxColor}
+                    onChange={(e) => updateRevealColor(e.target.value)}
+                    className="w-8 h-8 rounded border border-gray-700 bg-transparent cursor-pointer"
+                    aria-label="Choose reveal box color"
+                  />
                 </div>
 
                 <button
@@ -579,6 +634,10 @@ export default function UnveilPage() {
                   } ${
                     isRevealed ? 'border-gray-700 bg-gray-900/30' : 'border-gray-800 hover:border-gray-700'
                   }`}
+                  style={{
+                    backgroundColor: isRevealed ? `${activeBoxColor}1f` : undefined,
+                    borderColor: isRevealed ? `${activeBoxColor}66` : undefined,
+                  }}
                 >
                   {/* Step number indicator */}
                   <div className="absolute top-4 left-4 z-10">
@@ -601,9 +660,10 @@ export default function UnveilPage() {
                     <div
                       className={`w-6 h-6 rounded-full border flex items-center justify-center transition-all ${
                         isRevealed
-                          ? 'bg-green-500 border-green-500 text-white'
+                          ? 'text-white'
                           : 'border-gray-600'
                       }`}
+                      style={isRevealed ? { backgroundColor: activeBoxColor, borderColor: activeBoxColor } : undefined}
                     >
                       {isRevealed && <Check className="w-4 h-4" />}
                     </div>

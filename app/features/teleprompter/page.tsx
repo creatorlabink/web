@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/Button';
 import { useOfferState } from '@/lib/offer';
@@ -26,28 +26,52 @@ export default function TeleprompterFeaturePage() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [speed, setSpeed] = useState(45);
   const [textSize, setTextSize] = useState(32);
-  const [lineIndex, setLineIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollAccumulator = useRef(0);
+  const demoScript = `...and that brings me to my next point.
 
-  const scriptLines = useMemo(
-    () => [
-      '...and that brings me to my next point.',
-      'The key to building an audience is consistency.',
-      'Show up every single day, even when you don\'t feel like it.',
-      'That\'s what separates successful creators from everyone else.',
-      'You don\'t need perfect gear. You need clear messaging.',
-      'Speak directly to one person, and your content feels personal.',
-    ],
-    []
-  );
+The key to building an audience is consistency.
+
+Show up every single day, even when you don't feel like it.
+
+That's what separates successful creators from everyone else.
+
+You don't need perfect gear. You need clear messaging.
+
+Speak directly to one person, and your content feels personal.
+
+The goal is to sound natural, not robotic.
+
+Keep eye contact with the camera and trust your script.
+
+Slow delivery wins. Clarity wins.
+
+Now let's move to the next section...`;
 
   useEffect(() => {
-    if (!isPlaying) return;
-    const intervalMs = Math.max(900, 4500 - speed * 35);
-    const timer = window.setInterval(() => {
-      setLineIndex(prev => (prev + 1) % scriptLines.length);
-    }, intervalMs);
-    return () => window.clearInterval(timer);
-  }, [isPlaying, speed, scriptLines.length]);
+    if (!isPlaying || !scrollContainerRef.current) {
+      scrollAccumulator.current = 0;
+      return;
+    }
+
+    const container = scrollContainerRef.current;
+    const intervalId = window.setInterval(() => {
+      const pixelsPerSecond = Math.max(10, speed);
+      scrollAccumulator.current += pixelsPerSecond / 60;
+
+      if (scrollAccumulator.current >= 1) {
+        const pixelsToScroll = Math.floor(scrollAccumulator.current);
+        container.scrollTop += pixelsToScroll;
+        scrollAccumulator.current -= pixelsToScroll;
+      }
+
+      if (container.scrollTop >= container.scrollHeight - container.clientHeight - 2) {
+        container.scrollTop = 0;
+      }
+    }, 16.67);
+
+    return () => window.clearInterval(intervalId);
+  }, [isPlaying, speed]);
 
   const trackCta = () => {
     analyticsApi.track('cta_click', {
@@ -112,20 +136,24 @@ export default function TeleprompterFeaturePage() {
                     </div>
                     
                     <div className="flex-1 overflow-hidden relative">
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-900/90 pointer-events-none" />
-                      <div className="space-y-4 text-center transition-all duration-700">
-                        <p className="text-gray-500" style={{ fontSize: `${Math.max(16, textSize - 8)}px` }}>
-                          {scriptLines[(lineIndex + scriptLines.length - 1) % scriptLines.length]}
-                        </p>
-                        <p className="text-white font-semibold leading-relaxed" style={{ fontSize: `${textSize}px` }}>
-                          {scriptLines[lineIndex]}
-                        </p>
-                        <p className="text-purple-300" style={{ fontSize: `${Math.max(18, textSize - 4)}px` }}>
-                          {scriptLines[(lineIndex + 1) % scriptLines.length]}
-                        </p>
-                        <p className="text-gray-400" style={{ fontSize: `${Math.max(16, textSize - 8)}px` }}>
-                          {scriptLines[(lineIndex + 2) % scriptLines.length]}
-                        </p>
+                      <div className="absolute top-1/2 left-0 right-0 h-px bg-purple-400/40 z-10 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-transparent to-gray-900 pointer-events-none z-10" />
+                      <div
+                        ref={scrollContainerRef}
+                        className="h-[220px] overflow-hidden"
+                        style={{ scrollBehavior: 'auto' }}
+                      >
+                        <div className="py-16 px-3 text-center space-y-8">
+                          {[demoScript, demoScript].map((block, idx) => (
+                            <p
+                              key={idx}
+                              className="text-gray-200 whitespace-pre-line leading-relaxed"
+                              style={{ fontSize: `${textSize}px` }}
+                            >
+                              {block}
+                            </p>
+                          ))}
+                        </div>
                       </div>
                     </div>
 
