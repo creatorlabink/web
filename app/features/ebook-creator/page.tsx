@@ -68,22 +68,22 @@ export default function EbookCreatorFeaturePage() {
               <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20 rounded-3xl p-6 backdrop-blur-sm">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="rounded-2xl border border-white/10 bg-gray-900/70 p-4">
-                    <p className="text-emerald-300 uppercase tracking-wider mb-2" style={{ fontSize: '6px' }}>Plain Text Input</p>
-                    <div className="space-y-1 text-gray-300 font-mono leading-relaxed" style={{ fontSize: '3px' }}>
+                    <p className="text-emerald-300 text-xs uppercase tracking-wider mb-3">Plain Text Input</p>
+                    <div className="space-y-2 text-xs text-gray-300 font-mono leading-relaxed">
                       <p>title: The Creator Consistency Playbook</p>
                       <p>chapter 1 - why consistency matters</p>
-                      <p>Most creators quit before momentum...</p>
+                      <p>Most creators quit before they get momentum...</p>
                       <p>- show up daily</p>
                       <p>- measure one metric</p>
-                      <p>- improve weekly</p>
-                      <p>chapter 2 - repeatable workflow</p>
-                      <p>Create, publish, repeat.</p>
+                      <p>- improve one thing each week</p>
+                      <p>chapter 2 - build a repeatable workflow</p>
+                      <p>Create, publish, review, repeat...</p>
                     </div>
                   </div>
 
                   <div className="rounded-2xl border border-emerald-500/40 bg-gradient-to-br from-[#0D1B2A] to-[#132a43] p-4 shadow-2xl shadow-emerald-900/30">
                     <div className="flex items-center justify-between mb-3">
-                      <p className="text-[#F5A623] uppercase tracking-wider" style={{ fontSize: '6px' }}>Designed Ebook (Page 1)</p>
+                      <p className="text-[#F5A623] uppercase tracking-wider" style={{ fontSize: '7px' }}>Designed Ebook (Page 1)</p>
                       <span className="text-emerald-300 uppercase tracking-wide" style={{ fontSize: '5px' }}>Styled + Branded</span>
                     </div>
 
@@ -93,35 +93,35 @@ export default function EbookCreatorFeaturePage() {
 
                       <div className="relative pt-12 pb-4 pl-6 pr-4">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="tracking-[0.12em] text-gray-500 uppercase" style={{ fontSize: '5px' }}>CreatorLab Press</h3>
-                          <span className="font-semibold text-[#1E3A5F]" style={{ fontSize: '5px' }}>Pg 01</span>
+                          <h3 className="tracking-[0.12em] text-gray-500 uppercase" style={{ fontSize: '7px' }}>CreatorLab Press</h3>
+                          <span className="font-semibold text-[#1E3A5F]" style={{ fontSize: '7px' }}>Pg 01</span>
                         </div>
 
-                        <h4 className="font-black text-[#0D1B2A] leading-tight mb-1" style={{ fontSize: '8px' }}>The Creator Consistency Playbook</h4>
-                        <p className="font-bold text-[#1E3A5F] mb-2 uppercase tracking-wide" style={{ fontSize: '5px' }}>Chapter 1 — Why Consistency Matters</p>
+                        <h4 className="font-black text-[#0D1B2A] leading-tight mb-1" style={{ fontSize: '10px' }}>The Creator Consistency Playbook</h4>
+                        <p className="font-bold text-[#1E3A5F] mb-2 uppercase tracking-wide" style={{ fontSize: '7px' }}>Chapter 1 — Why Consistency Matters</p>
 
                         <div className="grid grid-cols-[1fr_auto] gap-2 items-start mb-2">
-                          <p className="text-gray-700 leading-relaxed" style={{ fontSize: '3px' }}>
+                          <p className="text-gray-700 leading-relaxed" style={{ fontSize: '5px' }}>
                             Most creators quit before momentum starts. Consistency compounds results.
                           </p>
                           <div className="rounded-md bg-emerald-50 border border-emerald-200 px-2 py-1">
-                            <p className="font-semibold text-emerald-700" style={{ fontSize: '5px' }}>+214%</p>
-                            <p className="text-emerald-600" style={{ fontSize: '4px' }}>Engagement</p>
+                            <p className="font-semibold text-emerald-700" style={{ fontSize: '6px' }}>+214%</p>
+                            <p className="text-emerald-600" style={{ fontSize: '5px' }}>Engagement</p>
                           </div>
                         </div>
 
                         <div className="rounded-lg bg-[#f8fafc] border border-slate-200 p-2 mb-2">
-                          <p className="text-gray-500 uppercase tracking-wider mb-1" style={{ fontSize: '5px' }}>Action Checklist</p>
+                          <p className="text-gray-500 uppercase tracking-wider mb-1" style={{ fontSize: '7px' }}>Action Checklist</p>
                           <ul className="space-y-1">
-                            <li className="text-gray-700" style={{ fontSize: '3px' }}>✓ Show up daily</li>
-                            <li className="text-gray-700" style={{ fontSize: '3px' }}>✓ Measure one metric</li>
-                            <li className="text-gray-700" style={{ fontSize: '3px' }}>✓ Improve weekly</li>
+                            <li className="text-gray-700" style={{ fontSize: '5px' }}>✓ Show up daily</li>
+                            <li className="text-gray-700" style={{ fontSize: '5px' }}>✓ Measure one metric</li>
+                            <li className="text-gray-700" style={{ fontSize: '5px' }}>✓ Improve weekly</li>
                           </ul>
                         </div>
 
                         <div className="rounded-lg bg-amber-50 border border-amber-200 p-2">
-                          <p className="text-amber-700 font-semibold uppercase tracking-wide" style={{ fontSize: '5px' }}>Key Takeaway</p>
-                          <p className="text-amber-900 font-medium" style={{ fontSize: '3px' }}>Consistency beats intensity over time.</p>
+                          <p className="text-amber-700 font-semibold uppercase tracking-wide" style={{ fontSize: '7px' }}>Key Takeaway</p>
+                          <p className="text-amber-900 font-medium" style={{ fontSize: '5px' }}>Consistency beats intensity over time.</p>
                         </div>
                       </div>
                     </div>
