@@ -192,6 +192,22 @@ export const authApi = {
       provider,
     });
   },
+  forgotPassword: (email: string) => {
+    if (!LOCAL_MODE) return api.post('/auth/forgot-password', { email });
+    return localOk({ message: 'If an account exists for this email, a password reset link has been sent.' });
+  },
+  verifyResetToken: (token: string) => {
+    if (!LOCAL_MODE) return api.get('/auth/reset-password/verify', { params: { token } });
+    if (!token) localErr('Invalid or expired reset link.');
+    return localOk({ valid: true, email: 'de***@creatorlab.ink' });
+  },
+  resetPassword: (token: string, password: string, confirmPassword: string) => {
+    if (!LOCAL_MODE) return api.post('/auth/reset-password', { token, password, confirmPassword });
+    if (!token) localErr('Invalid or expired reset link.');
+    if (password.length < 8) localErr('Password must be at least 8 characters.');
+    if (password !== confirmPassword) localErr('Passwords do not match.');
+    return localOk({ message: 'Password reset successful. You can now log in with your new password.' });
+  },
 };
 
 // ─── Ebooks ───────────────────────────────────────────────────────────────────

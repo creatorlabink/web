@@ -5,15 +5,31 @@ import Link from 'next/link';
 import { BookMarked, ArrowLeft, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { authApi } from '@/lib/api';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
+    setError('');
+    setLoading(true);
+
+    try {
+      await authApi.forgotPassword(email.trim());
+      setSubmitted(true);
+    } catch (err: unknown) {
+      const message = (err as { response?: { data?: { error?: string; message?: string } } })?.response?.data?.message
+        || (err as { response?: { data?: { error?: string } } })?.response?.data?.error
+        || 'Unable to request password reset right now. Please try again.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,10 +51,16 @@ export default function ForgotPasswordPage() {
               <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm text-emerald-300">
                 Recovery request received for <span className="font-semibold">{email}</span>.
                 <br />
-                Please contact <span className="font-semibold">support@creatorlab.ink</span> to complete password reset.
+                Check your inbox for your secure password reset link.
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {error && (
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-300">
+                    {error}
+                  </div>
+                )}
+
                 <Input
                   label="Email address"
                   type="email"
@@ -49,7 +71,12 @@ export default function ForgotPasswordPage() {
                   className="bg-white/5 border-white/10 text-white placeholder-gray-500"
                 />
 
-                <Button type="submit" className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500" size="md">
+                <Button
+                  type="submit"
+                  loading={loading}
+                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500"
+                  size="md"
+                >
                   <Mail className="w-4 h-4" />
                   Request Password Reset
                 </Button>
