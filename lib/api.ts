@@ -219,7 +219,12 @@ export const authApi = {
     return localOk({ token: DEMO_TOKEN, user: DEMO_USER });
   },
   getMe: () => {
-    if (!LOCAL_MODE) return api.get('/auth/me');
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/auth/me'),
+        () => apiRoot.get('/auth/me')
+      );
+    }
     const token = Cookies.get('cl_token');
     if (!token) localErr('Unauthorized');
     return localOk({ user: DEMO_USER });
