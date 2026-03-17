@@ -710,12 +710,11 @@ export const adminEmailApi = {
 };
 
 export const adminUsersApi = {
-  listUsers: (search?: string) => {
+  listUsers: (params?: { search?: string; plan?: string; sortBy?: string; sortOrder?: string; page?: number; limit?: number }) => {
     if (!LOCAL_MODE) {
-      const query = search ? `?search=${encodeURIComponent(search)}` : '';
       return withApiPrefixFallback(
-        () => api.get(`/admin/users${query}`),
-        () => apiRoot.get(`/admin/users${query}`)
+        () => api.get('/admin/users', { params }),
+        () => apiRoot.get('/admin/users', { params })
       );
     }
 
@@ -726,9 +725,70 @@ export const adminUsersApi = {
           email: 'demo@creatorlab.io',
           name: 'Creatorlab Demo',
           plan: 'lifetime',
+          ebook_count: 3,
+          payment_count: 1,
+          total_spent: 1197,
+          totalSpentFormatted: '$11.97',
         },
       ],
+      pagination: { page: 1, limit: 25, totalCount: 1, totalPages: 1, hasMore: false },
     });
+  },
+  getUserDetails: (userId: string) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get(`/admin/users/${userId}`),
+        () => apiRoot.get(`/admin/users/${userId}`)
+      );
+    }
+
+    return localOk({
+      user: { id: userId, email: 'demo@creatorlab.io', name: 'Demo User', plan: 'lifetime' },
+      ebooks: [],
+      payments: [],
+      totalSpentCents: 0,
+      totalSpentFormatted: '$0.00',
+      events: [],
+      socialIdentities: [],
+      auditLogs: [],
+      stats: { ebookCount: 0, paymentCount: 0, eventCount: 0 },
+    });
+  },
+  updateUser: (userId: string, data: { name?: string; email?: string; plan?: string }) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.patch(`/admin/users/${userId}`, data),
+        () => apiRoot.patch(`/admin/users/${userId}`, data)
+      );
+    }
+    return localOk({ user: { id: userId, ...data } });
+  },
+  deleteUser: (userId: string) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.delete(`/admin/users/${userId}`),
+        () => apiRoot.delete(`/admin/users/${userId}`)
+      );
+    }
+    return localOk({ success: true, message: 'User deleted' });
+  },
+  resetPassword: (userId: string, newPassword: string) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post(`/admin/users/${userId}/reset-password`, { newPassword }),
+        () => apiRoot.post(`/admin/users/${userId}/reset-password`, { newPassword })
+      );
+    }
+    return localOk({ success: true, message: 'Password reset successfully' });
+  },
+  impersonate: (userId: string) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.post(`/admin/users/${userId}/impersonate`),
+        () => apiRoot.post(`/admin/users/${userId}/impersonate`)
+      );
+    }
+    return localOk({ success: true, token: 'demo-impersonation-token', user: { id: userId }, message: 'Impersonating user' });
   },
   updateUserPlan: (userId: string, plan: 'free' | 'lifetime' | 'annual') => {
     if (!LOCAL_MODE) {
@@ -738,6 +798,112 @@ export const adminUsersApi = {
       );
     }
     return localOk({ user: { id: userId, plan } });
+  },
+};
+
+// ─── Admin Dashboard API ────────────────────────────────────────────────────
+export const adminDashboardApi = {
+  getStats: () => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/dashboard/stats'),
+        () => apiRoot.get('/admin/dashboard/stats')
+      );
+    }
+    return localOk({
+      overview: { totalUsers: 1, newUsersToday: 0, newUsersThisWeek: 0, newUsersThisMonth: 1, totalEbooks: 2, ebooksThisWeek: 1, activeUsers7d: 1 },
+      revenue: { totalRevenueCents: 1197, totalRevenueFormatted: '$11.97', thisMonthCents: 1197, thisMonthFormatted: '$11.97', lastMonthCents: 0, growthPercent: 100 },
+      conversion: { totalUsers: 1, paidUsers: 1, lifetimeUsers: 1, annualUsers: 0, conversionRatePercent: 100 },
+      planBreakdown: [{ plan: 'lifetime', count: 1 }],
+      topTemplates: [{ template: 'minimal', usage_count: 2 }],
+      recentPayments: [],
+    });
+  },
+  getSystemStatus: () => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/dashboard/system'),
+        () => apiRoot.get('/admin/dashboard/system')
+      );
+    }
+    return localOk({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      database: { latencyMs: 5, sizeBytes: 1024000, sizeFormatted: '1.00 MB' },
+      tableStats: [],
+      server: { nodeVersion: 'v20.0.0', uptime: 3600, memoryUsage: { heapTotal: 50000000, heapUsed: 30000000, external: 1000000 } },
+    });
+  },
+};
+
+// ─── Admin Revenue API ──────────────────────────────────────────────────────
+export const adminRevenueApi = {
+  getStats: () => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/revenue'),
+        () => apiRoot.get('/admin/revenue')
+      );
+    }
+    return localOk({
+      totals: { totalRevenueCents: 1197, totalRevenueFormatted: '$11.97', avgTransactionCents: 1197, avgTransactionFormatted: '$11.97', refundCount: 0, refundTotalCents: 0, refundTotalFormatted: '$0.00' },
+      monthly: [],
+      recentTransactions: [],
+      topCustomers: [],
+    });
+  },
+};
+
+// ─── Admin Analytics API ────────────────────────────────────────────────────
+export const adminAnalyticsApi = {
+  getDashboard: () => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/analytics'),
+        () => apiRoot.get('/admin/analytics')
+      );
+    }
+    return localOk({
+      eventCounts: { total_events: 10, events_7d: 5, events_30d: 10 },
+      funnel: { pageViews: 100, ctaClicks: 20, signups: 5, ebookCreated: 3, downloads: 2, payments: 1, ctaToSignupRate: '25.00', signupToEbookRate: '60.00', signupToPaymentRate: '20.00' },
+      dailySignups: [],
+      templateUsage: [{ template: 'minimal', count: 2 }],
+      aiUsage: { ai_used: 1, manual: 1 },
+      topEvents: [],
+      eventsByDay: [],
+    });
+  },
+};
+
+// ─── Admin Ebooks API ───────────────────────────────────────────────────────
+export const adminEbooksApi = {
+  list: (params?: { search?: string; template?: string; status?: string; page?: number; limit?: number }) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/ebooks', { params }),
+        () => apiRoot.get('/admin/ebooks', { params })
+      );
+    }
+    return localOk({
+      ebooks: [],
+      pagination: { page: 1, limit: 25, totalCount: 0, totalPages: 0, hasMore: false },
+    });
+  },
+};
+
+// ─── Admin Audit Logs API ───────────────────────────────────────────────────
+export const adminAuditLogsApi = {
+  list: (params?: { action?: string; actorEmail?: string; page?: number; limit?: number }) => {
+    if (!LOCAL_MODE) {
+      return withApiPrefixFallback(
+        () => api.get('/admin/audit-logs', { params }),
+        () => apiRoot.get('/admin/audit-logs', { params })
+      );
+    }
+    return localOk({
+      logs: [],
+      pagination: { page: 1, limit: 50, totalCount: 0, totalPages: 0, hasMore: false },
+    });
   },
 };
 

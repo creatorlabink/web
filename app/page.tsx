@@ -197,6 +197,95 @@ export default function LandingPage() {
       </section>
 
       {/* ════════════════════════════════════════════════════════════════════
+          FEATURED TOOLS — Unveil, Teleprompter, Ebook Creator
+      ════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 bg-gradient-to-b from-[#0a0a0a] to-gray-900">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="inline-block text-indigo-400 text-sm font-bold uppercase tracking-wider mb-4">Powerful Creator Tools</span>
+            <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
+              Three Tools. One Platform.<br />
+              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">Unlimited Potential.</span>
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Everything you need to go from idea to published ebook — powered by AI, designed for speed.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Unveil */}
+            <Link href="/features/unveil" className="group">
+              <div className="relative bg-gradient-to-br from-indigo-500/10 to-blue-500/5 border border-indigo-500/20 rounded-3xl p-8 hover:border-indigo-400/40 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 h-full">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-indigo-300 transition-colors">Unveil</h3>
+                <p className="text-indigo-300 text-sm font-semibold uppercase tracking-wider mb-3">AI-Powered Ebook Creation</p>
+                <p className="text-gray-400 leading-relaxed mb-6">
+                  Drop in your raw text — notes, outlines, transcripts — and watch AI transform it into a polished, publication-ready ebook. 
+                  Chapters detected. Headings styled. Quotes formatted. <span className="text-white font-semibold">All in seconds.</span>
+                </p>
+                <div className="flex items-center gap-2 text-indigo-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                  Explore Unveil <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Teleprompter */}
+            <Link href="/features/teleprompter" className="group">
+              <div className="relative bg-gradient-to-br from-purple-500/10 to-pink-500/5 border border-purple-500/20 rounded-3xl p-8 hover:border-purple-400/40 hover:shadow-xl hover:shadow-purple-500/10 transition-all duration-300 h-full">
+                <div className="absolute top-4 right-4">
+                  <span className="bg-purple-500 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider">New</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                    <line x1="12" x2="12" y1="19" y2="22" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-purple-300 transition-colors">Teleprompter</h3>
+                <p className="text-purple-300 text-sm font-semibold uppercase tracking-wider mb-3">Speak Your Ideas. We Format Them.</p>
+                <p className="text-gray-400 leading-relaxed mb-6">
+                  Not a writer? No problem. Paste your spoken content, coaching call transcripts, or podcast episodes — 
+                  Teleprompter cleans up the language, structures chapters, and creates a <span className="text-white font-semibold">publishable ebook from your voice</span>.
+                </p>
+                <div className="flex items-center gap-2 text-purple-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                  Explore Teleprompter <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Ebook Creator */}
+            <Link href="/features/ebook-creator" className="group">
+              <div className="relative bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/20 rounded-3xl p-8 hover:border-emerald-400/40 hover:shadow-xl hover:shadow-emerald-500/10 transition-all duration-300 h-full">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BookMarked className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-black text-white mb-2 group-hover:text-emerald-300 transition-colors">Ebook Creator</h3>
+                <p className="text-emerald-300 text-sm font-semibold uppercase tracking-wider mb-3">Templates, Styling & Export</p>
+                <p className="text-gray-400 leading-relaxed mb-6">
+                  The engine that brings it all together. Choose designer-quality templates, preview in real time, 
+                  customize colors and branding, and export <span className="text-white font-semibold">pixel-perfect PDFs</span> ready to sell or share.
+                </p>
+                <div className="flex items-center gap-2 text-emerald-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                  Explore Ebook Creator <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/features">
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-6 bg-white/5 border-white/10 text-white hover:bg-white/10 gap-2">
+                See All Features <ArrowRight className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════════════
           PROBLEM / SOLUTION
       ════════════════════════════════════════════════════════════════════ */}
       <section className="py-24 bg-white">
@@ -517,16 +606,42 @@ export default function LandingPage() {
       ════════════════════════════════════════════════════════════════════ */}
       <footer className="bg-[#0a0a0a] border-t border-white/10 py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2 text-white font-bold text-xl">
-              <BookMarked className="w-6 h-6 text-indigo-400" />
-              Creatorlab
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 text-white font-bold text-xl mb-3">
+                <BookMarked className="w-6 h-6 text-indigo-400" />
+                Creatorlab
+              </div>
+              <p className="text-gray-500 text-sm">Turn your ideas into stunning ebooks. AI-powered. Creator-focused.</p>
             </div>
+            <div>
+              <p className="text-white font-semibold text-sm mb-3">Product</p>
+              <div className="flex flex-col gap-2">
+                <Link href="/features" className="text-gray-400 hover:text-white text-sm transition-colors">Features</Link>
+                <Link href="/features/unveil" className="text-gray-400 hover:text-white text-sm transition-colors">Unveil</Link>
+                <Link href="/features/teleprompter" className="text-gray-400 hover:text-white text-sm transition-colors">Teleprompter</Link>
+                <Link href="/features/ebook-creator" className="text-gray-400 hover:text-white text-sm transition-colors">Ebook Creator</Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-white font-semibold text-sm mb-3">Company</p>
+              <div className="flex flex-col gap-2">
+                <Link href="/about" className="text-gray-400 hover:text-white text-sm transition-colors">About</Link>
+                <Link href="/how-it-works" className="text-gray-400 hover:text-white text-sm transition-colors">How It Works</Link>
+                <Link href="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">Pricing</Link>
+              </div>
+            </div>
+            <div>
+              <p className="text-white font-semibold text-sm mb-3">Get Started</p>
+              <div className="flex flex-col gap-2">
+                <Link href="/auth/signup" className="text-gray-400 hover:text-white text-sm transition-colors">Sign Up</Link>
+                <Link href="/auth/login" className="text-gray-400 hover:text-white text-sm transition-colors">Log In</Link>
+                <Link href="/dashboard" className="text-gray-400 hover:text-white text-sm transition-colors">Dashboard</Link>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-gray-500 text-sm">© {new Date().getFullYear()} Creatorlab — Built for creators who publish.</p>
-            <div className="flex items-center gap-6 text-sm">
-              <Link href="/auth/signup" className="text-gray-400 hover:text-white transition-colors">Get Started</Link>
-              <Link href="/auth/login" className="text-gray-400 hover:text-white transition-colors">Dashboard</Link>
-            </div>
           </div>
         </div>
       </footer>

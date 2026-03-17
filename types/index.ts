@@ -135,6 +135,10 @@ export interface AdminUser {
   plan: 'free' | 'lifetime' | 'annual';
   created_at?: string;
   updated_at?: string;
+  ebook_count?: number;
+  payment_count?: number;
+  total_spent?: number;
+  totalSpentFormatted?: string;
 }
 
 export interface AdminEmailMessage {
@@ -146,6 +150,218 @@ export interface AdminEmailMessage {
   subject: string;
   status: string;
   created_at: string;
+}
+
+// ─── Admin Dashboard Types ────────────────────────────────────────────────────
+
+export interface AdminDashboardOverview {
+  totalUsers: number;
+  newUsersToday: number;
+  newUsersThisWeek: number;
+  newUsersThisMonth: number;
+  totalEbooks: number;
+  ebooksThisWeek: number;
+  activeUsers7d: number;
+}
+
+export interface AdminDashboardRevenue {
+  totalRevenueCents: number;
+  totalRevenueFormatted: string;
+  thisMonthCents: number;
+  thisMonthFormatted: string;
+  lastMonthCents: number;
+  growthPercent: number;
+}
+
+export interface AdminConversionStats {
+  totalUsers: number;
+  paidUsers: number;
+  lifetimeUsers: number;
+  annualUsers: number;
+  conversionRatePercent: number;
+}
+
+export interface AdminPlanBreakdown {
+  plan: string;
+  count: number;
+}
+
+export interface AdminRecentPayment {
+  id: string;
+  userEmail: string;
+  userName: string | null;
+  amount: number;
+  amountFormatted: string;
+  currency: string;
+  status: string;
+  createdAt: string;
+}
+
+export interface AdminDashboardStats {
+  overview: AdminDashboardOverview;
+  revenue: AdminDashboardRevenue;
+  conversion: AdminConversionStats;
+  planBreakdown: AdminPlanBreakdown[];
+  topTemplates: { template: string; usage_count: number }[];
+  recentPayments: AdminRecentPayment[];
+}
+
+export interface AdminUserDetails {
+  user: AdminUser;
+  ebooks: {
+    id: string;
+    title: string;
+    template: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+  }[];
+  payments: {
+    id: string;
+    stripe_session_id: string;
+    amount: number;
+    amountFormatted: string;
+    currency: string;
+    status: string;
+    created_at: string;
+  }[];
+  totalSpentCents: number;
+  totalSpentFormatted: string;
+  events: {
+    id: string;
+    event_name: string;
+    ebook_id: string | null;
+    template: string | null;
+    source: string | null;
+    created_at: string;
+  }[];
+  socialIdentities: {
+    provider: string;
+    provider_user_id: string;
+    email: string | null;
+    created_at: string;
+  }[];
+  auditLogs: {
+    id: string;
+    actor_email: string;
+    action: string;
+    payload_json: Record<string, unknown>;
+    created_at: string;
+  }[];
+  stats: {
+    ebookCount: number;
+    paymentCount: number;
+    eventCount: number;
+  };
+}
+
+export interface AdminRevenueMonthly {
+  month: string;
+  revenueCents: number;
+  revenueFormatted: string;
+  transactionCount: number;
+}
+
+export interface AdminTopCustomer {
+  id: string;
+  email: string;
+  name: string | null;
+  transactionCount: number;
+  totalSpentCents: number;
+  totalSpentFormatted: string;
+}
+
+export interface AdminRevenueStats {
+  totals: {
+    totalRevenueCents: number;
+    totalRevenueFormatted: string;
+    avgTransactionCents: number;
+    avgTransactionFormatted: string;
+    refundCount: number;
+    refundTotalCents: number;
+    refundTotalFormatted: string;
+  };
+  monthly: AdminRevenueMonthly[];
+  recentTransactions: AdminRecentPayment[];
+  topCustomers: AdminTopCustomer[];
+}
+
+export interface AdminAnalyticsFunnel {
+  pageViews: number;
+  ctaClicks: number;
+  signups: number;
+  ebookCreated: number;
+  downloads: number;
+  payments: number;
+  ctaToSignupRate: number | string;
+  signupToEbookRate: number | string;
+  signupToPaymentRate: number | string;
+}
+
+export interface AdminAnalyticsDashboard {
+  eventCounts: {
+    total_events: number;
+    events_7d: number;
+    events_30d: number;
+  };
+  funnel: AdminAnalyticsFunnel;
+  dailySignups: { date: string; signups: number }[];
+  templateUsage: { template: string; count: number }[];
+  aiUsage: { ai_used: number; manual: number };
+  topEvents: { event_name: string; count: number }[];
+  eventsByDay: { date: string; event_count: number }[];
+}
+
+export interface AdminEbook {
+  id: string;
+  title: string;
+  template: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  user_id: string;
+  user_email: string;
+  user_name: string | null;
+  ai_applied: boolean;
+}
+
+export interface AdminAuditLog {
+  id: string;
+  actor_user_id: string | null;
+  actor_email: string;
+  action: string;
+  target_table: string | null;
+  target_id: string | null;
+  payload_json: Record<string, unknown>;
+  created_at: string;
+}
+
+export interface AdminSystemStatus {
+  status: 'healthy' | 'unhealthy';
+  timestamp: string;
+  database: {
+    latencyMs: number;
+    sizeBytes: number;
+    sizeFormatted: string;
+  };
+  tableStats: { table_name: string; row_count: number }[];
+  server: {
+    nodeVersion: string;
+    uptime: number;
+    memoryUsage: {
+      heapTotal: number;
+      heapUsed: number;
+      external: number;
+    };
+  };
+}
+
+export interface AdminPagination {
+  page: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+  hasMore: boolean;
 }
 
 // Phase 4 placeholder
